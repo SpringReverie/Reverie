@@ -1,0 +1,522 @@
+	<!DOCTYPE html>
+	<html lang="zh-CN">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	    <title>星际躲避 - 星际穿越</title>
+	    <style>
+	        /* CSS 样式部分 */
+	        * {
+	            margin: 0;
+	            padding: 0;
+	            box-sizing: border-box;
+	            user-select: none; 
+	            -webkit-user-select: none;
+	        }
+	        body, html {
+	            width: 100%;
+	            height: 100%;
+	            overflow: hidden; 
+	            background-color: #000;
+	            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	            color: #fff;
+	            touch-action: none; 
+	        }
+	        /* 游戏画布全屏 */
+	        canvas {
+	            display: block;
+	            width: 100%;
+	            height: 100%;
+	        }
+	        /* UI 层 */
+	        #ui-layer {
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+	            pointer-events: none; 
+	            display: flex;
+	            flex-direction: column;
+	            justify-content: space-between;
+	        }
+	        /* 顶部 HUD */
+	        .hud {
+	            padding: 20px;
+	            display: flex;
+	            justify-content: space-between;
+	            font-size: 20px;
+	            text-shadow: 0 0 5px #0ff;
+	            z-index: 10;
+	        }
+	        /* 游戏菜单 (开始/结束屏幕) */
+	        #menu-screen {
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+	            background: rgba(0, 0, 0, 0.85);
+	            display: flex;
+	            flex-direction: column;
+	            align-items: center;
+	            justify-content: center;
+	            pointer-events: auto;
+	            z-index: 20;
+	            backdrop-filter: blur(5px);
+	            transition: opacity 0.3s;
+	        }
+	        h1 {
+	            font-size: 40px;
+	            margin-bottom: 10px;
+	            background: linear-gradient(to right, #00c6ff, #0072ff);
+	            -webkit-background-clip: text;
+	            -webkit-text-fill-color: transparent;
+	            text-align: center;
+	        }
+	        p {
+	            font-size: 16px;
+	            color: #ccc;
+	            margin-bottom: 30px;
+	            text-align: center;
+	            max-width: 600px;
+	            line-height: 1.5;
+	        }
+	        .btn {
+	            padding: 15px 40px;
+	            font-size: 20px;
+	            background: linear-gradient(45deg, #ff4b1f, #ff9068);
+	            color: white;
+	            border: none;
+	            border-radius: 30px;
+	            cursor: pointer;
+	            box-shadow: 0 5px 15px rgba(255, 75, 31, 0.4);
+	            transition: transform 0.2s, box-shadow 0.2s;
+	            text-decoration: none;
+	            display: inline-block;
+	            pointer-events: auto;
+	        }
+	        .btn:hover {
+	            transform: scale(1.05);
+	            box-shadow: 0 8px 20px rgba(255, 75, 31, 0.6);
+	        }
+	        .btn-secondary {
+	            background: transparent;
+	            border: 2px solid #555;
+	            box-shadow: none;
+	            margin-top: 15px;
+	            font-size: 16px;
+	        }
+	        .btn-secondary:hover {
+	            border-color: #fff;
+	            background: rgba(255,255,255,0.1);
+	        }
+	        .hidden {
+	            opacity: 0;
+	            pointer-events: none !important;
+	        }
+	    </style>
+	</head>
+	<body>
+	    <!-- 游戏画布 -->
+	    <canvas id="gameCanvas"></canvas>
+	    <!-- UI 界面 -->
+	    <div id="ui-layer">
+	        <div class="hud">
+	            <div id="score-display">分数: 0</div>
+	            <div id="hp-display">生命: ON</div>
+	        </div>
+	    </div>
+	    <!-- 菜单界面 -->
+	    <div id="menu-screen">
+	        <h1 id="menu-title">星际躲避</h1>
+	        <p id="menu-desc">
+	            驾驶飞船穿越陨石带。<br>
+	            <span style="color:#00c6ff">PC: WASD/方向键 移动，空格射击</span><br>
+	            <span style="color:#00c6ff">手机: 滑动屏幕移动，自动射击</span>
+	        </p>
+	        <div id="final-score-container" style="display:none; margin-bottom: 20px;">
+	            <span style="font-size: 24px; color: #ff9068;">最终得分: <span id="final-score">0</span></span>
+	        </div>
+	        <button id="start-btn" class="btn">开始任务</button>
+	        <a href="index.html" class="btn btn-secondary">返回个人主页</a>
+	    </div>
+	    <script>
+	        /**
+	         * 游戏核心逻辑
+	         * 修改点：
+	         * 1. 移除了手机端 FIRE 按钮。
+	         * 2. 现在只要冷却时间结束，子弹就会自动发射（手机端无需点击）。
+	         * 3. 修复了手机端滑动无法移动飞船的问题。
+	         */
+	        const canvas = document.getElementById('gameCanvas');
+	        const ctx = canvas.getContext('2d');
+	        // UI 元素
+	        const menuScreen = document.getElementById('menu-screen');
+	        const startBtn = document.getElementById('start-btn');
+	        const scoreDisplay = document.getElementById('score-display');
+	        const finalScoreContainer = document.getElementById('final-score-container');
+	        const finalScoreSpan = document.getElementById('final-score');
+	        const menuTitle = document.getElementById('menu-title');
+	        const menuDesc = document.getElementById('menu-desc');
+	        // 游戏状态
+	        let gameState = 'MENU'; 
+	        let score = 0;
+	        let animationId;
+	        // 游戏对象数组
+	        let bullets = [];
+	        let meteors = [];
+	        let particles = []; 
+	        let stars = []; 
+	        // 飞船对象
+	        const player = {
+	            x: 0,
+	            y: 0,
+	            width: 50,
+	            height: 40,
+	            speed: 7,
+	            color: '#00c6ff',
+	            cooldown: 0
+	        };
+	        // 输入控制
+	        const keys = {
+	            ArrowUp: false,
+	            ArrowDown: false,
+	            ArrowLeft: false,
+	            ArrowRight: false,
+	            Space: false
+	        };
+	        let touchX = null;
+	        let touchY = null;
+	        // 难度控制
+	        let gameSpeedMultiplier = 1.0;
+	        // 初始化画布尺寸
+	        function resize() {
+	            canvas.width = window.innerWidth;
+	            canvas.height = window.innerHeight;
+	            if (gameState === 'MENU') {
+	                player.x = canvas.width / 2;
+	                player.y = canvas.height - 100;
+	            }
+	        }
+	        window.addEventListener('resize', resize);
+	        resize();
+	        // --- 类定义 ---
+	        class Star {
+	            constructor() {
+	                this.x = Math.random() * canvas.width;
+	                this.y = Math.random() * canvas.height;
+	                this.size = Math.random() * 2;
+	                this.baseSpeed = Math.random() * 3 + 0.5;
+	                this.brightness = Math.random();
+	            }
+	            update() {
+	                this.y += this.baseSpeed * gameSpeedMultiplier;
+	                if (this.y > canvas.height) {
+	                    this.y = 0;
+	                    this.x = Math.random() * canvas.width;
+	                }
+	                this.brightness += (Math.random() - 0.5) * 0.1;
+	                if (this.brightness > 1) this.brightness = 1;
+	                if (this.brightness < 0.3) this.brightness = 0.3;
+	            }
+	            draw() {
+	                ctx.fillStyle = `rgba(255, 255, 255, ${this.brightness})`;
+	                ctx.beginPath();
+	                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+	                ctx.fill();
+	            }
+	        }
+	        class Bullet {
+	            constructor(x, y) {
+	                this.x = x;
+	                this.y = y;
+	                this.radius = 4;
+	                this.speed = 12;
+	                this.color = '#ff9068';
+	            }
+	            update() {
+	                this.y -= this.speed;
+	            }
+	            draw() {
+	                ctx.fillStyle = this.color;
+	                ctx.shadowBlur = 10;
+	                ctx.shadowColor = this.color;
+	                ctx.beginPath();
+	                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+	                ctx.fill();
+	                ctx.shadowBlur = 0;
+	            }
+	        }
+	        class Meteor {
+	            constructor() {
+	                this.radius = Math.random() * 30 + 15; 
+	                this.x = Math.random() * (canvas.width - this.radius * 2) + this.radius;
+	                this.y = -this.radius * 2;
+	                this.baseSpeed = (Math.random() * 2 + 2); 
+	                this.speed = this.baseSpeed * gameSpeedMultiplier;
+	                this.vertices = [];
+	                const vertexCount = Math.floor(Math.random() * 5) + 5; 
+	                for (let i = 0; i < vertexCount; i++) {
+	                    const angle = (i / vertexCount) * Math.PI * 2;
+	                    const r = this.radius * (0.8 + Math.random() * 0.4);
+	                    this.vertices.push({
+	                        x: Math.cos(angle) * r,
+	                        y: Math.sin(angle) * r
+	                    });
+	                }
+	                const gray = Math.floor(Math.random() * 50 + 100);
+	                this.color = `rgb(${gray}, ${gray}, ${gray})`;
+	                this.angle = 0;
+	                this.spin = (Math.random() - 0.5) * 0.1;
+	                if (this.radius > 35) {
+	                    this.hp = 5;
+	                    this.scoreValue = 100;
+	                } else if (this.radius > 20) {
+	                    this.hp = 3;
+	                    this.scoreValue = 50;
+	                } else {
+	                    this.hp = 1;
+	                    this.scoreValue = 20;
+	                }
+	            }
+	            update() {
+	                this.y += this.speed; 
+	                this.angle += this.spin;
+	            }
+	            draw() {
+	                ctx.save();
+	                ctx.translate(this.x, this.y);
+	                ctx.rotate(this.angle);
+	                ctx.fillStyle = this.color;
+	                ctx.strokeStyle = '#333';
+	                ctx.lineWidth = 2;
+	                ctx.beginPath();
+	                ctx.moveTo(this.vertices[0].x, this.vertices[0].y);
+	                for (let i = 1; i < this.vertices.length; i++) {
+	                    ctx.lineTo(this.vertices[i].x, this.vertices[i].y);
+	                }
+	                ctx.closePath();
+	                ctx.fill();
+	                ctx.stroke();
+	                ctx.fillStyle = 'rgba(0,0,0,0.2)';
+	                ctx.beginPath();
+	                ctx.arc(this.radius * 0.3, -this.radius * 0.2, this.radius * 0.2, 0, Math.PI * 2);
+	                ctx.fill();
+	                ctx.restore();
+	            }
+	        }
+	        class Particle {
+	            constructor(x, y, color) {
+	                this.x = x;
+	                this.y = y;
+	                this.radius = Math.random() * 3 + 1;
+	                this.speedX = (Math.random() - 0.5) * 6;
+	                this.speedY = (Math.random() - 0.5) * 6;
+	                this.color = color;
+	                this.alpha = 1;
+	            }
+	            update() {
+	                this.x += this.speedX;
+	                this.y += this.speedY;
+	                this.alpha -= 0.03;
+	            }
+	            draw() {
+	                ctx.save();
+	                ctx.globalAlpha = this.alpha;
+	                ctx.fillStyle = this.color;
+	                ctx.beginPath();
+	                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+	                ctx.fill();
+	                ctx.restore();
+	            }
+	        }
+	        // --- 游戏功能 ---
+	        function initGame() {
+	            score = 0;
+	            gameSpeedMultiplier = 1.0; 
+	            bullets = [];
+	            meteors = [];
+	            particles = [];
+	            player.x = canvas.width / 2;
+	            player.y = canvas.height - 100;
+	            player.cooldown = 0;
+	            scoreDisplay.innerText = `分数: ${score}`;
+	            gameState = 'PLAYING';
+	            menuScreen.classList.add('hidden');
+	            stars = [];
+	            for(let i=0; i<100; i++) stars.push(new Star());
+	            loop();
+	        }
+	        function createExplosion(x, y, color, count = 10) {
+	            for(let i=0; i<count; i++) {
+	                particles.push(new Particle(x, y, color));
+	            }
+	        }
+	        function gameOver() {
+	            gameState = 'GAMEOVER';
+	            cancelAnimationFrame(animationId);
+	            menuTitle.innerText = "任务失败";
+	            menuDesc.innerText = "飞船已损毁，请调整策略后重试。";
+	            finalScoreSpan.innerText = score;
+	            finalScoreContainer.style.display = 'block';
+	            startBtn.innerText = "重新开始";
+	            menuScreen.classList.remove('hidden');
+	        }
+	        // --- 主循环 ---
+	        function loop() {
+	            if (gameState !== 'PLAYING') return;
+	            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+	            ctx.fillRect(0, 0, canvas.width, canvas.height);
+	            stars.forEach(star => {
+	                star.update();
+	                star.draw();
+	            });
+	            if (score > 0) {
+	                gameSpeedMultiplier += 0.0005;
+	                if (gameSpeedMultiplier > 3.0) gameSpeedMultiplier = 3.0;
+	            }
+	            // 键盘控制逻辑
+	            if (keys.ArrowUp) player.y -= player.speed;
+	            if (keys.ArrowDown) player.y += player.speed;
+	            if (keys.ArrowLeft) player.x -= player.speed;
+	            if (keys.ArrowRight) player.x += player.speed;
+	            // 【修复】触摸控制逻辑：飞船跟随手指
+	            if (touchX !== null) {
+	                player.x = touchX - player.width / 2;
+	            }
+	            if (touchY !== null) {
+	                player.y = touchY - player.height / 2;
+	            }
+	            // 边界检查
+	            if (player.x < player.width) player.x = player.width;
+	            if (player.x > canvas.width - player.width) player.x = canvas.width - player.width;
+	            if (player.y < player.height) player.y = player.height;
+	            if (player.y > canvas.height - player.height) player.y = canvas.height - player.height;
+	            if (player.cooldown > 0) player.cooldown--;
+	            // 射击逻辑：移除了 Space 检查，实现全自动
+	            if (player.cooldown <= 0) {
+	                bullets.push(new Bullet(player.x, player.y - 20));
+	                player.cooldown = 8; // 冷却时间
+	            }
+	            ctx.save();
+	            ctx.translate(player.x, player.y);
+	            // 引擎火焰
+	            ctx.fillStyle = `rgba(255, 50, 0, ${0.5 + Math.random() * 0.5})`;
+	            ctx.beginPath();
+	            ctx.moveTo(-10, 15);
+	            ctx.lineTo(0, 30 + Math.random() * 10);
+	            ctx.lineTo(10, 15);
+	            ctx.fill();
+	            ctx.fillStyle = '#00c6ff';
+	            ctx.shadowBlur = 15;
+	            ctx.shadowColor = '#00c6ff';
+	            ctx.beginPath();
+	            ctx.moveTo(0, -20);
+	            ctx.lineTo(20, 20);
+	            ctx.lineTo(0, 15);
+	            ctx.lineTo(-20, 20);
+	            ctx.closePath();
+	            ctx.fill();
+	            ctx.fillStyle = '#fff';
+	            ctx.beginPath();
+	            ctx.arc(0, -5, 5, 0, Math.PI * 2);
+	            ctx.fill();
+	            ctx.restore();
+	            bullets.forEach((bullet, bIndex) => {
+	                bullet.update();
+	                bullet.draw();
+	                if (bullet.y < 0) bullets.splice(bIndex, 1);
+	            });
+	            let spawnRate = 60;
+	            if (score > 500) spawnRate = 45;
+	            if (score > 1000) spawnRate = 30;
+	            if (Math.random() * spawnRate < 1) {
+	                meteors.push(new Meteor());
+	            }
+	            meteors.forEach((meteor, mIndex) => {
+	                meteor.update();
+	                meteor.draw();
+	                bullets.forEach((bullet, bIndex) => {
+	                    const dx = bullet.x - meteor.x;
+	                    const dy = bullet.y - meteor.y;
+	                    const dist = Math.sqrt(dx*dx + dy*dy);
+	                    if (dist < meteor.radius + bullet.radius) {
+	                        meteor.hp--;
+	                        createExplosion(bullet.x, bullet.y, '#fff', 3);
+	                        bullets.splice(bIndex, 1);
+	                        if (meteor.hp <= 0) {
+	                            createExplosion(meteor.x, meteor.y, meteor.color, 15);
+	                            score += meteor.scoreValue;
+	                            scoreDisplay.innerText = `分数: ${score}`;
+	                            meteors.splice(mIndex, 1);
+	                        }
+	                    }
+	                });
+	                const dx = player.x - meteor.x;
+	                const dy = player.y - meteor.y;
+	                const dist = Math.sqrt(dx*dx + dy*dy);
+	                if (dist < meteor.radius + 15) {
+	                    createExplosion(player.x, player.y, '#ff0000', 50);
+	                    gameOver();
+	                }
+	                if (meteor.y > canvas.height + 50) {
+	                    meteors.splice(mIndex, 1);
+	                }
+	            });
+	            particles.forEach((p, index) => {
+	                p.update();
+	                p.draw();
+	                if (p.alpha <= 0) particles.splice(index, 1);
+	            });
+	            animationId = requestAnimationFrame(loop);
+	        }
+	        // --- 事件监听 ---
+	        window.addEventListener('keydown', e => {
+	            if (e.code === 'ArrowUp' || e.code === 'KeyW') keys.ArrowUp = true;
+	            if (e.code === 'ArrowDown' || e.code === 'KeyS') keys.ArrowDown = true;
+	            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.ArrowLeft = true;
+	            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.ArrowRight = true;
+	            if (e.code === 'Space') {
+	                e.preventDefault();
+	                keys.Space = true;
+	            }
+	        });
+	        window.addEventListener('keyup', e => {
+	            if (e.code === 'ArrowUp' || e.code === 'KeyW') keys.ArrowUp = false;
+	            if (e.code === 'ArrowDown' || e.code === 'KeyS') keys.ArrowDown = false;
+	            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.ArrowLeft = false;
+	            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.ArrowRight = false;
+	            if (e.code === 'Space') {
+	                keys.Space = false;
+	            }
+	        });
+	        // 触摸控制：移动
+	        window.addEventListener('touchstart', e => {
+	            touchY = e.touches[0].clientY;
+	            touchX = e.touches[0].clientX;
+	        }, {passive: false});
+	        window.addEventListener('touchmove', e => {
+	            e.preventDefault(); 
+	            touchY = e.touches[0].clientY;
+	            touchX = e.touches[0].clientX;
+	        }, {passive: false});
+	        window.addEventListener('touchend', () => {
+	            touchY = null;
+	            touchX = null;
+	        });
+	        startBtn.addEventListener('click', initGame);
+	        function initialRender() {
+	            ctx.fillStyle = '#000';
+	            ctx.fillRect(0, 0, canvas.width, canvas.height);
+	            for(let i=0; i<50; i++) {
+	                ctx.fillStyle = `rgba(255,255,255,${Math.random()})`;
+	                ctx.beginPath();
+	                ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, Math.random()*2, 0, Math.PI*2);
+	                ctx.fill();
+	            }
+	        }
+	        initialRender();
+	    </script>
+	</body>
+	</html>

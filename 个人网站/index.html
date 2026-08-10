@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0,viewport-fit=cover">
+    <meta name="theme-color" content="#e8f0ec">
+    <meta name="description" content="孙嘉伟 · 机械智能化实验班">
+    <title>Resume · 孙嘉伟</title>
+    <!-- TensorFlow.js 与 MobileNet 模型 CDN（用于猫狗分类器） -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
+    <style>
+        :root {
+            --bg: #e8f0ec;
+            --card: #fff;
+            --text: #1a1a24;
+            --text-secondary: #4a5a5a;
+            --text-muted: #6b7b7a;
+            --accent: #1a3c34;
+            --accent-warm: #5b8c6f;
+            --gold: #c9a96e;
+            --gold-light: #f2e5d0;
+            --blue: #4a6fa5;
+            --blue-light: #e0eaf5;
+            --coral: #c06c4c;
+            --coral-light: #f8ebe4;
+            --tag-bg: #eaf2ee;
+            --tag-text: #1a3c34;
+            --border: #d5ded9;
+            --border-light: #eef3f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,.04);
+            --shadow-md: 0 2px 10px rgba(0,0,0,.06),0 4px 20px rgba(0,0,0,.05);
+            --shadow-lg: 0 4px 24px rgba(0,0,0,.08),0 8px 36px rgba(0,0,0,.06);
+            --radius-sm: 6px;
+            --radius: 14px;
+            --radius-lg: 18px;
+            --font: -apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',sans-serif;
+            --transition-fast: .16s cubic-bezier(.4,0,.2,1);
+            --transition-smooth: .3s cubic-bezier(.4,0,.2,1);
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;}
+        body{
+            font-family:var(--font);background:var(--bg);color:var(--text);
+            line-height:1.55;min-height:100vh;display:flex;justify-content:center;
+            padding:0;position:relative;overflow-x:hidden;
+        }
+        /* 背景装饰 */
+        .bg-decoration{
+            position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;
+        }
+        .bg-glow-1{position:absolute;top:-8%;right:-6%;width:55vw;height:55vw;max-width:580px;max-height:580px;background:radial-gradient(circle,rgba(201,169,110,.13) 0%,rgba(201,169,110,.06) 35%,transparent 75%);border-radius:50%;animation:glowPulse1 9s ease-in-out infinite;}
+        .bg-glow-2{position:absolute;bottom:-10%;left:-5%;width:48vw;height:48vw;max-width:500px;max-height:500px;background:radial-gradient(circle,rgba(74,111,165,.11) 0%,rgba(74,111,165,.05) 40%,transparent 78%);border-radius:50%;animation:glowPulse2 10s ease-in-out infinite;}
+        .bg-glow-3{position:absolute;top:38%;left:52%;width:35vw;height:35vw;max-width:360px;max-height:360px;background:radial-gradient(circle,rgba(91,140,111,.1) 0%,rgba(140,185,155,.05) 42%,transparent 70%);border-radius:50%;animation:glowPulse3 8s ease-in-out infinite;}
+        .bg-glow-4{position:absolute;top:10%;left:10%;width:25vw;height:25vw;max-width:260px;max-height:260px;background:radial-gradient(circle,rgba(192,108,76,.08) 0%,rgba(220,160,140,.04) 45%,transparent 72%);border-radius:50%;animation:glowPulse4 11s ease-in-out infinite;}
+        @keyframes glowPulse1{0%,100%{transform:scale(1);opacity:.85;}50%{transform:scale(1.07);opacity:1;}}
+        @keyframes glowPulse2{0%,100%{transform:scale(1);opacity:.8;}50%{transform:scale(1.09);opacity:1;}}
+        @keyframes glowPulse3{0%,100%{transform:scale(1);opacity:.7;}50%{transform:scale(1.06);opacity:.92;}}
+        @keyframes glowPulse4{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.12);opacity:.88;}}
+        .bg-grid{position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(26,60,52,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(26,60,52,.045) 1px,transparent 1px);background-size:44px 44px;opacity:.8;}
+        .bg-diagonal{position:absolute;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(-38deg,transparent,transparent 55px,rgba(26,60,52,.02) 55px,rgba(26,60,52,.02) 56px);opacity:.65;}
+        .bg-geo-ring{position:absolute;top:14%;right:3%;width:180px;height:180px;border:2px solid rgba(201,169,110,.16);border-radius:50%;transform:rotate(-14deg);opacity:.6;}
+        .bg-geo-ring-2{position:absolute;bottom:20%;left:4%;width:120px;height:120px;border:1.8px solid rgba(74,111,165,.12);border-radius:50%;transform:rotate(22deg);opacity:.55;}
+        .bg-squares{position:absolute;top:24%;right:14%;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;opacity:.4;transform:rotate(16deg);}
+        .bg-squares span{display:block;width:13px;height:13px;border-radius:2.5px;background:rgba(201,169,110,.18);}
+        .bg-dots-row{position:absolute;bottom:26%;right:16%;display:flex;gap:10px;opacity:.5;}
+        .bg-dots-row span{display:block;border-radius:50%;width:5px;height:5px;background:rgba(201,169,110,.25);}
+        .bg-dots-row span:nth-child(2){width:7px;height:7px;}
+        .bg-dots-row span:nth-child(4){width:8px;height:8px;}
+        .bg-emoji-1{position:absolute;top:18%;right:10%;font-size:2.2rem;opacity:.18;animation:floatEmoji 7s ease-in-out infinite;}
+        .bg-emoji-2{position:absolute;bottom:30%;left:8%;font-size:1.8rem;opacity:.16;animation:floatEmoji 8s ease-in-out infinite reverse;}
+        .bg-emoji-3{position:absolute;top:45%;left:55%;font-size:2.5rem;opacity:.13;animation:floatEmoji 9s ease-in-out infinite;}
+        .bg-emoji-4{position:absolute;bottom:15%;right:20%;font-size:1.6rem;opacity:.17;animation:floatEmoji 6s ease-in-out infinite reverse;}
+        @keyframes floatEmoji{0%,100%{transform:translateY(0) rotate(0deg);}30%{transform:translateY(-12px) rotate(5deg);}60%{transform:translateY(6px) rotate(-3deg);}}
+        .app-container{width:100%;max-width:600px;padding:14px 12px 36px;position:relative;z-index:1;}
+
+        /* Header */
+        .header-card{
+            background:var(--card);border-radius:var(--radius-lg);padding:18px 16px;
+            box-shadow:var(--shadow-md);display:flex;align-items:center;gap:14px;margin-bottom:12px;
+            border:1px solid var(--border-light);position:relative;overflow:hidden;
+        }
+        .header-card::after{
+            content:'';position:absolute;top:0;left:0;right:0;height:3px;
+            background:linear-gradient(90deg,#1a3c34,#5b8c6f,#c9a96e,#1a3c34);opacity:.75;
+        }
+        .avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2.5px solid var(--border-light);}
+        .header-name{font-size:1.38rem;font-weight:700;color:var(--text);}
+        .header-title{font-size:.82rem;color:var(--accent);font-weight:500;margin:2px 0;}
+        .header-tagline{font-size:.72rem;color:var(--text-muted);}
+        .header-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+        .header-meta span{display:inline-flex;align-items:center;gap:3px;background:var(--bg);padding:4px 8px;border-radius:14px;font-size:.68rem;}
+
+        /* Tab导航 */
+        .tab-nav{display:flex;background:var(--card);border-radius:var(--radius);padding:4px;box-shadow:var(--shadow-md);border:1px solid var(--border-light);position:sticky;top:10px;z-index:20;margin-bottom:10px;overflow-x:auto;}
+        .tab-nav button{flex:1 1 auto;min-width:50px;padding:10px 8px;border:none;background:transparent;cursor:pointer;font-size:.8rem;font-weight:500;color:var(--text-muted);border-radius:9px;transition:all var(--transition-smooth);white-space:nowrap;min-height:44px;}
+        .tab-nav button.active{background:linear-gradient(135deg,#1a3c34,#3d6e4e);color:#fff;font-weight:600;box-shadow:0 2px 8px rgba(26,60,52,.3);}
+        .tab-panel{display:none;animation:fadeIn .4s ease;}
+        .tab-panel.active{display:block;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+        /* 卡片 */
+        .card{background:var(--card);border-radius:var(--radius);padding:16px 14px;margin-bottom:10px;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);}
+        .card-title{font-size:1rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:7px;}
+        .card-title .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+        .about-text{font-size:.82rem;color:var(--text-secondary);line-height:1.7;margin-bottom:12px;}
+        .stats{display:flex;gap:8px;flex-wrap:wrap;}
+        .stat-item{flex:1 1 auto;min-width:62px;text-align:center;background:var(--bg);border-radius:var(--radius-sm);padding:12px 6px;}
+        .stat-value{font-size:1.2rem;font-weight:700;color:var(--accent);}
+        .stat-label{font-size:.66rem;color:var(--text-muted);}
+
+        .timeline{position:relative;padding-left:18px;margin-top:8px;}
+        .timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:1.5px;background:var(--border);}
+        .timeline-item{position:relative;margin-bottom:14px;padding-left:16px;}
+        .timeline-dot{position:absolute;left:-13px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--accent);border:2px solid #fff;box-shadow:0 0 0 3px rgba(26,60,52,.16);}
+        .timeline-role{font-weight:650;font-size:.84rem;}
+        .timeline-company{font-size:.74rem;color:var(--accent);font-weight:500;}
+        .timeline-date{font-size:.68rem;color:var(--text-muted);margin-bottom:4px;}
+        .timeline-desc{font-size:.75rem;color:var(--text-secondary);}
+        .timeline-desc ul{list-style:none;padding:0;}
+        .timeline-desc li{padding-left:14px;position:relative;margin-bottom:2px;}
+        .timeline-desc li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.58rem;}
+
+        .project-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+        @media(min-width:460px){.project-grid{grid-template-columns:1fr 1fr;}}
+        .project-card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid var(--border-light);}
+        .project-img-wrap{width:100%;aspect-ratio:16/10;background:#e8f0ec;overflow:hidden;}
+        .project-img-wrap img{width:100%;height:100%;object-fit:cover;}
+        .project-info{padding:12px;}
+        .project-name{font-weight:650;font-size:.84rem;}
+        .project-tags{display:flex;gap:4px;margin:5px 0;}
+        .project-tag{font-size:.62rem;padding:3px 8px;border-radius:10px;background:var(--tag-bg);color:var(--tag-text);}
+        .project-desc{font-size:.7rem;color:var(--text-muted);margin-bottom:8px;}
+        .demo-btn{display:inline-block;font-size:.7rem;padding:6px 12px;border-radius:16px;background:linear-gradient(135deg,#1a3c34,#3d6e4e);color:#fff;cursor:pointer;font-weight:600;border:none;text-decoration:none;}
+
+        .cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+        .cert-card{background:var(--card);border-radius:var(--radius);overflow:hidden;}
+        .cert-img-wrap{width:100%;aspect-ratio:1.414/1;background:#fafafc;display:flex;align-items:center;justify-content:center;}
+        .cert-img-wrap img{max-width:100%;max-height:100%;object-fit:contain;}
+        .cert-label{padding:8px;font-size:.7rem;font-weight:600;text-align:center;}
+
+        .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+        .photo-item{aspect-ratio:1/1;overflow:hidden;border-radius:var(--radius-sm);cursor:pointer;}
+        .photo-item img{width:100%;height:100%;object-fit:cover;}
+
+        .skill-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+        .skill-tag{font-size:.7rem;padding:5px 10px;border-radius:15px;background:var(--bg);border:1px solid var(--border);}
+        .skill-tag.highlight{background:var(--gold-light);border-color:#e0d0b0;color:#8b6914;font-weight:600;}
+        .skill-bar-wrap{margin-top:8px;}
+        .skill-bar-label{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-secondary);margin-bottom:3px;}
+        .skill-bar{height:5px;border-radius:3px;background:var(--border);margin-bottom:10px;}
+        .skill-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#1a3c34,#5b8c6f,#c9a96e);width:0;transition:width 1s;}
+
+        .edu-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-light);}
+        .edu-icon{width:34px;height:34px;border-radius:8px;background:var(--tag-bg);display:flex;align-items:center;justify-content:center;font-size:.8rem;}
+        .edu-school{font-weight:650;font-size:.82rem;}
+        .edu-degree{font-size:.72rem;color:var(--text-secondary);}
+        .edu-date{font-size:.66rem;color:var(--text-muted);}
+
+        .footer{text-align:center;padding:20px 0;color:var(--text-muted);font-size:.7rem;}
+        .footer-links{display:flex;justify-content:center;gap:10px;margin-bottom:8px;}
+        .footer-link{padding:6px 12px;border-radius:16px;background:var(--tag-bg);color:var(--accent);text-decoration:none;font-size:.7rem;}
+
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:999;justify-content:center;align-items:center;padding:20px;}
+        .modal.active{display:flex;}
+        .modal-content{background:var(--card);border-radius:var(--radius-lg);max-width:450px;width:100%;padding:24px;position:relative;}
+        .modal-close{position:absolute;top:8px;right:14px;font-size:22px;cursor:pointer;}
+    </style>
+</head>
+<body>
+<div class="bg-decoration">
+    <div class="bg-glow-1"></div><div class="bg-glow-2"></div><div class="bg-glow-3"></div><div class="bg-glow-4"></div>
+    <div class="bg-grid"></div><div class="bg-diagonal"></div>
+    <div class="bg-geo-ring"></div><div class="bg-geo-ring-2"></div>
+    <div class="bg-squares"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="bg-dots-row"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="bg-emoji-1">⚙️</div><div class="bg-emoji-2">✨</div><div class="bg-emoji-3">🔬</div><div class="bg-emoji-4">🎯</div>
+</div>
+
+<div class="app-container">
+    <!-- Header -->
+    <header class="header-card">
+        <img class="avatar" src="微信头像.jpg" alt="头像" onerror="this.style.display='none';">
+        <div>
+            <h1 class="header-name">孙嘉伟</h1>
+            <p class="header-title">⚙️ Mechanical Intelligence · B.Eng Candidate</p>
+            <p class="header-tagline">华东理工大学 | 机械工程 × 人工智能交叉方向 · 文理兼修</p>
+            <div class="header-meta">
+                <span>📞 1XX-XXXX-XXXX</span>
+                <span>✉️ example@email.com</span>
+                <span>📍 上海</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tab导航 -->
+    <nav class="tab-nav" id="tabNav">
+        <button class="active" onclick="switchTab('about')">🧑‍💻 About</button>
+        <button onclick="switchTab('education')">🎓 Education</button>
+        <button onclick="switchTab('experience')">💼 Experience</button>
+        <button onclick="switchTab('projects')">🚀 Projects</button>
+        <button onclick="switchTab('skills')">⚡ Skills</button>
+    </nav>
+
+    <!-- About面板 -->
+    <div id="panel-about" class="tab-panel active">
+        <div class="card">
+            <div class="card-title"><span class="dot"></span>🌟 Profile</div>
+            <p class="about-text">我是一名<strong>文理兼修、多元发展</strong>的准大学生，即将进入<strong>华东理工大学机械智能化实验班</strong>攻读本科。拥有扎实的理工科基础，高中阶段自学Python编程并取得<strong>阿里巴巴达摩院AI训练师认证</strong>，具备将AI技术初步应用于工程场景的意识。同时兼具<strong>演讲、主持、摄影、诗词创作</strong>等人文特长，善于将技术思维与沟通表达融合运用。</p>
+            <div class="stats">
+                <div class="stat-item"><div class="stat-value">🏅 AI认证</div><div class="stat-label">达摩院训练师</div></div>
+                <div class="stat-item"><div class="stat-value">🎤 10+场</div><div class="stat-label">主持大型活动</div></div>
+                <div class="stat-item"><div class="stat-value">⭐ 3年</div><div class="stat-label">校级优秀学生</div></div>
+                <div class="stat-item"><div class="stat-value">🐍 Python</div><div class="stat-label">独立项目开发</div></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><span class="dot"></span>🎯 Objective</div>
+            <p style="font-size:.78rem;color:var(--text-secondary);line-height:1.65;"><strong>目标领域：</strong>机械工程与人工智能交叉方向<br><strong>学历阶段：</strong>本科在读 · 2026年9月入学（预计2031年毕业）<br><strong>所在地：</strong>上海<br><strong>当前状态：</strong>积极求知，寻求实习与科研实践机会</p>
+        </div>
+    </div>
+
+    <!-- Education面板 -->
+    <div id="panel-education" class="tab-panel">
+        <div class="card">
+            <div class="card-title"><span class="dot"></span>📚 Education</div>
+            <div class="edu-item">
+                <div class="edu-icon">🎓</div>
+                <div>
+                    <div class="edu-school">华东理工大学</div>
+                    <div class="edu-degree">机械类（机械智能化实验班）· 本科</div>
+                    <div class="edu-date">2026.09 – 2031.06（预计）</div>
+                    <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px;">通过高考直接录取进入机械智能化实验班，聚焦<strong>机械工程与智能技术交叉培养方向</strong>。主修方向涵盖：机械设计制造、自动化控制、人工智能基础等。入学前已自学掌握Python与AI基础知识。</p>
+                </div>
+            </div>
+            <div class="edu-item">
+                <div class="edu-icon">📘</div>
+                <div>
+                    <div class="edu-school">高中阶段</div>
+                    <div class="edu-degree">连续三年校级优秀学生 · 校长特别嘉奖</div>
+                    <div class="edu-date">2023 – 2026年</div>
+                    <p style="font-size:.7rem;color:var(--text-muted);margin-top:3px;">综合表现始终位居年级前列，展现了持续优秀的学术能力与全面发展的个人素质。</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><span class="dot"></span>🏆 Certifications</div>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <div class="cert-img-wrap"><img src="ai训练师高级证书.png" alt="高级证书" onerror="this.parentElement.innerHTML='📄 高级证书';"></div>
+                    <div class="cert-label">🥇 AI训练师 · 高级</div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-img-wrap"><img src="ai训练师初级证书.png" alt="初级证书" onerror="this.parentElement.innerHTML='📄 初级证书';"></div>
+                    <div class="cert-label">🥈 AI训练师 · 初级</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experience面板 -->
+    <div id="panel-experience" class="tab-panel">
+        <div class="card">
+            <div class="card-title"><span class="dot"></span>💼 Practice & Experience</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-role">🎤 校园活动策划与主持</div>
+                    <div class="timeline-company">高中部 · 核心组织者</div>
+                    <div class="timeline-date">2023.09 – 2026.06</div>
+                    <div class="timeline-desc"><ul><li>多次担任开学典礼、校园艺术节等<strong>校级大型活动</strong>主题演讲人与节目主持人，累计参与活动<strong>超10场</strong></li><li>在主持中多次<strong>临场应对流程变更与设备故障</strong>等突发情况，保障活动顺利进行</li><li>任职校园广播部核心成员，主导策划并制作多档广播节目，<strong>独立完成选题、文案撰写与播音全流程</strong></li></ul></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-role">🔴 红色精神学习实践</div>
+                    <div class="timeline-company">个人实践</div>
+                    <div class="timeline-date">2025年暑期</div>
+                    <div class="timeline-desc"><ul><li>自发前往<strong>上海龙华烈士陵园、中共一大会址</strong>等红色教育基地深入学习</li><li>结合实践撰写学习心得，通过班级分享会影响带动身边同学关注红色文化</li><li>进一步塑造了<strong>个人价值观与社会责任意识</strong></li></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects面板 -->
+    <div id="panel-projects" class="tab-panel">
+        <div class="project-grid">
+            <div class="project-card">
+                <div class="project-img-wrap"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200' viewBox='0 0 320 200'%3E%3Crect fill='%231a2a1f' width='320' height='200'/%3E%3Ccircle cx='70' cy='110' r='16' fill='%234caf84'/%3E%3Crect x='190' y='75' width='44' height='28' rx='6' fill='%23e8c84a'/%3E%3C/svg%3E" alt="游戏"></div>
+                <div class="project-info">
+                    <div class="project-name">🎮 星际躲避</div>
+                    <div class="project-tags"><span class="project-tag">Canvas</span><span class="project-tag">游戏开发</span></div>
+                    <p class="project-desc">纯JavaScript实现的太空射击游戏，支持键盘与触摸操作。</p>
+                    <a class="demo-btn" href="game.html" target="_blank">🎮 体验游戏（新窗口）</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img-wrap"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200' viewBox='0 0 320 200'%3E%3Crect fill='%23e8f0ec' width='320' height='200'/%3E%3Ccircle cx='100' cy='90' r='28' fill='%23c5d9cc'/%3E%3Ccircle cx='220' cy='90' r='28' fill='%23b0c8b8'/%3E%3C/svg%3E" alt="AI"></div>
+                <div class="project-info">
+                    <div class="project-name">🤖 猫狗分类器</div>
+                    <div class="project-tags"><span class="project-tag">TensorFlow.js</span><span class="project-tag">MobileNet</span></div>
+                    <p class="project-desc">基于深度学习的实时图像分类，可识别猫狗图片。</p>
+                    <button class="demo-btn" onclick="openClassifier()">🤖 体验分类器</button>
+                </div>
+            </div>
+        </div>
+        <!-- 摄影作品 -->
+        <div class="card" style="margin-top:10px;">
+            <div class="card-title"><span class="dot"></span>📸 Photography Portfolio</div>
+            <p style="font-size:.7rem;color:var(--text-muted);margin-bottom:8px;">自学摄影构图、光影运用及后期处理（Lightroom / Photoshop），能够独立完成从拍摄到成片的完整流程</p>
+            <div class="photo-grid">
+                <div class="photo-item"><img src="摄影作品1.jpg" alt="摄影1" onerror="this.parentElement.innerHTML='📷1';"></div>
+                <div class="photo-item"><img src="摄影作品2.jpg" alt="摄影2" onerror="this.parentElement.innerHTML='📷2';"></div>
+                <div class="photo-item"><img src="摄影作品3.jpg" alt="摄影3" onerror="this.parentElement.innerHTML='📷3';"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills面板 -->
+    <div id="panel-skills" class="tab-panel">
+        <div class="card">
+            <div class="card-title"><span class="dot"></span>⚡ Core Competencies</div>
+            <div style="margin-bottom:12px;">
+                <div style="font-weight:650;font-size:.76rem;">💻 编程与技术</div>
+                <div class="skill-tags"><span class="skill-tag highlight">Python</span><span class="skill-tag">Pygame</span><span class="skill-tag">面向对象编程</span><span class="skill-tag">AI/ML基础</span><span class="skill-tag">数据标注</span></div>
+            </div>
+            <div style="margin-bottom:12px;">
+                <div style="font-weight:650;font-size:.76rem;">🗣️ 表达与沟通</div>
+                <div class="skill-tags"><span class="skill-tag highlight">公开演讲</span><span class="skill-tag highlight">活动主持</span><span class="skill-tag">文案创作</span><span class="skill-tag">团队协作</span><span class="skill-tag">即兴应变</span></div>
+            </div>
+            <div style="margin-bottom:12px;">
+                <div style="font-weight:650;font-size:.76rem;">📷 摄影与后期</div>
+                <div class="skill-tags"><span class="skill-tag highlight">构图</span><span class="skill-tag highlight">光影运用</span><span class="skill-tag">Lightroom</span><span class="skill-tag">Photoshop</span><span class="skill-tag">全流程制作</span></div>
+            </div>
+            <div>
+                <div style="font-weight:650;font-size:.76rem;">📊 办公与设计</div>
+                <div class="skill-tags"><span class="skill-tag highlight">PowerPoint</span><span class="skill-tag">学术汇报设计</span><span class="skill-tag">英语（雅思备考中）</span><span class="skill-tag">视频剪辑（学习中）</span></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><span class="dot"></span>📈 Skill Levels</div>
+            <div class="skill-bar-wrap">
+                <div class="skill-bar-label"><span>🐍 Python 编程</span><span>85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
+                <div class="skill-bar-label"><span>🤖 AI / 机器学习基础</span><span>75%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div>
+                <div class="skill-bar-label"><span>🎤 演讲表达与主持</span><span>90%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
+                <div class="skill-bar-label"><span>📸 摄影与后期</span><span>80%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="80"></div></div>
+                <div class="skill-bar-label"><span>🌐 英语能力（雅思备考）</span><span>65%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="65"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a class="footer-link" href="mailto:example@email.com">✉️ Email</a>
+            <a class="footer-link" href="#">🐙 GitHub</a>
+            <a class="footer-link" href="#">🔗 LinkedIn</a>
+        </div>
+        <p>© 2026 孙嘉伟 · Built with ❤️</p>
+    </footer>
+</div>
+
+<!-- 分类器模态框 -->
+<div id="classifierModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeClassifier()">&times;</span>
+        <h3>🐱🐶 猫狗分类器</h3>
+        <p style="font-size:.8rem;color:var(--text-secondary);">上传一张猫或狗的图片，AI 将进行识别（需网络加载模型）。</p>
+        <input type="file" id="imgUpload" accept="image/*" style="margin:10px 0;">
+        <div id="classifierResult"></div>
+    </div>
+</div>
+
+<script>
+    // Tab切换
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + tab).classList.add('active');
+        document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+        document.querySelector(`.tab-nav button[onclick="switchTab('${tab}')"]`).classList.add('active');
+    }
+
+    // 技能条动画
+    window.addEventListener('load', () => {
+        document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+        });
+    });
+
+    // 猫狗分类器（稳定版）
+    let mobilenetModel = null;
+
+    async function loadModel() {
+        if (mobilenetModel) return mobilenetModel;
+        document.getElementById('classifierResult').textContent = '⏳ 正在加载 AI 模型...';
+        try {
+            mobilenetModel = await mobilenet.load({ version: 2, alpha: 1.0 });
+            document.getElementById('classifierResult').textContent = '✅ 模型就绪，请上传图片。';
+        } catch (error) {
+            console.error('模型加载失败:', error);
+            document.getElementById('classifierResult').textContent = '❌ 模型加载失败，请检查网络连接。';
+        }
+        return mobilenetModel;
+    }
+
+    function openClassifier() {
+        document.getElementById('classifierModal').classList.add('active');
+        loadModel();
+    }
+
+    function closeClassifier() {
+        document.getElementById('classifierModal').classList.remove('active');
+    }
+
+    document.getElementById('imgUpload').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        img.onload = async () => {
+            const model = mobilenetModel;
+            if (!model) {
+                document.getElementById('classifierResult').textContent = '模型仍在加载，请稍候...';
+                return;
+            }
+            document.getElementById('classifierResult').textContent = '🔍 分析中...';
+            const predictions = await model.classify(img);
+            const top = predictions[0];
+            const className = top.className.toLowerCase();
+            const catWords = ['cat','tabby','tiger','persian','siamese','kitten'];
+            const dogWords = ['dog','puppy','hound','terrier','retriever','beagle','poodle'];
+            let label = '未知';
+            if (catWords.some(w => className.includes(w))) label = '🐱 猫';
+            else if (dogWords.some(w => className.includes(w))) label = '🐶 狗';
+            else if (className.includes('cat')) label = '🐱 猫';
+            else if (className.includes('dog')) label = '🐶 狗';
+            document.getElementById('classifierResult').innerHTML = `结果：<strong>${label}</strong> (置信度: ${(top.probability*100).toFixed(1)}%)`;
+        };
+    });
+</script>
+</body>
+</html>
