@@ -51,6 +51,10 @@
             --shadow-card: 0 10px 40px rgba(0,0,0,.45);
             --shadow-glow: 0 0 30px rgba(167,139,250,.25);
             --particle-color: #7ec8ff;
+            /* JIEJOE 风：极简黑白 + 霓虹绿单色点缀 */
+            --neon: #17f700;
+            --neon-soft: rgba(23,247,0,.3);
+            --grid-line: rgba(23,247,0,.07);
             --font: -apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',sans-serif;
             --mono: ui-monospace,'SF Mono',Consolas,monospace;
             --transition-fast: .16s cubic-bezier(.4,0,.2,1);
@@ -78,9 +82,18 @@
             --shadow-card: 0 10px 40px rgba(60,90,160,.18);
             --shadow-glow: 0 0 24px rgba(124,58,237,.18);
             --particle-color: #3f7fd6;
+            /* JIEJOE 风：极简黑白 + 霓虹绿单色点缀（日间加深） */
+            --neon: #0fb500;
+            --neon-soft: rgba(15,181,0,.28);
+            --grid-line: rgba(15,181,0,.1);
         }
 
         *{margin:0;padding:0;box-sizing:border-box;}
+        /* 扳手光标：SVG 内联（Material build 扳手路径），全局应用 */
+        :root{
+            --cursor-wrench: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%3E%3Cpath%20fill='%23ececec'%20stroke='%23151515'%20stroke-width='1'%20d='M22.7%2019l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9%206%206%209%201.6%204.7C.4%207.1.9%2010.1%202.9%2012.1c1.9%201.9%204.6%202.4%206.9%201.5l9.1%209.1c.4.4%201%20.4%201.4%200l2.3-2.3c.5-.4.5-1.1.1-1.4z'/%3E%3C/svg%3E") 12 12, auto;
+        }
+        body, a, button, input, select, textarea, [role="button"], .demo-btn, .contact-card, .photo-item, .cert-flip, .back-to-top, .icon-btn{cursor:var(--cursor-wrench);}
         html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;}
         body{
             font-family:var(--font);background:var(--bg-0);color:var(--text);
@@ -109,12 +122,87 @@
         .bg-stars{position:absolute;inset:0;}
         .bg-stars i{position:absolute;width:2px;height:2px;border-radius:50%;background:#cfe6ff;animation:twinkle 3.5s ease-in-out infinite;}
         @keyframes twinkle{0%,100%{opacity:.12;transform:scale(.7);}50%{opacity:.9;transform:scale(1.25);}}
+        /* —— JIEJOE 风装饰：48px 大网格（工程图纸感） —— */
+        .bg-grid-eng{position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 50% 30%,#000 5%,transparent 72%);-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 5%,transparent 72%);}
+        /* —— JIEJOE 风装饰：旋转十字 —— */
+        .bg-cross{position:absolute;width:44px;height:44px;opacity:.55;pointer-events:none;}
+        .bg-cross::before,.bg-cross::after{content:'';position:absolute;background:var(--neon);opacity:.5;box-shadow:0 0 8px var(--neon-soft);}
+        .bg-cross::before{left:50%;top:0;width:2px;height:100%;transform:translateX(-50%);}
+        .bg-cross::after{top:50%;left:0;height:2px;width:100%;transform:translateY(-50%);}
+        .bg-cross.c1{top:13%;right:5%;animation:rotateCross 14s linear infinite;}
+        .bg-cross.c2{bottom:15%;left:3%;animation:rotateCross 18s linear infinite reverse;}
+        @keyframes rotateCross{to{transform:rotate(360deg);}}
+        /* —— JIEJOE 风装饰：滚动视觉线（两侧流动光线） —— */
+        .vline{position:fixed;top:0;bottom:0;width:1px;z-index:5;pointer-events:none;}
+        .vline.left{left:18px;}
+        .vline.right{right:18px;}
+        .vline::before{content:'';position:absolute;top:0;bottom:0;left:0;width:1px;background:var(--stroke);}
+        .vline::after{content:'';position:absolute;left:0;width:1px;height:90px;background:linear-gradient(180deg,transparent,var(--neon),transparent);animation:vlineMove 5.5s linear infinite;}
+        @keyframes vlineMove{from{top:-90px;}to{top:100%;}}
+        /* —— JIEJOE 风装饰：机械手（关节开合） —— */
+        .robot-hand{position:absolute;bottom:16%;right:5%;width:74px;height:74px;opacity:.5;pointer-events:none;z-index:0;}
+        .robot-hand .palm{position:absolute;inset:10px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4a4a4a,#151515);box-shadow:inset -4px -6px 12px rgba(0,0,0,.6),0 0 18px var(--neon-soft);}
+        .robot-hand .finger{position:absolute;top:12px;width:10px;height:28px;border-radius:5px;background:linear-gradient(180deg,#464646,#1b1b1b);transform-origin:50% 0;}
+        .robot-hand .f1{left:10px;transform:rotate(16deg);animation:grip 3.6s ease-in-out infinite;}
+        .robot-hand .f2{right:10px;transform:rotate(-16deg);animation:grip 3.6s ease-in-out infinite reverse;}
+        .robot-hand .f3{left:50%;margin-left:-5px;animation:gripMid 3.6s ease-in-out infinite;}
+        .robot-hand .wrist{position:absolute;bottom:-46px;left:50%;margin-left:-6px;width:12px;height:46px;background:linear-gradient(90deg,#3a3a3a,#171717);border-radius:6px;}
+        .robot-hand .wrist::after{content:'';position:absolute;top:-7px;left:-3px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#555,#222);}
+        @keyframes grip{0%,100%{transform:rotate(16deg);}50%{transform:rotate(38deg);}}
+        @keyframes gripMid{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
+        @media(max-width:760px){.vline{display:none;}.robot-hand{display:none;}}
+        /* —— JIEJOE 风：巨型描边背景字（设计师排版，滚动视差） —— */
+        .section-bg{position:absolute;top:6px;left:0;right:0;text-align:center;font-weight:900;font-size:clamp(3.2rem,12vw,7.5rem);line-height:1;letter-spacing:.08em;white-space:nowrap;pointer-events:none;user-select:none;z-index:0;color:transparent;-webkit-text-stroke:1.5px var(--stroke-2);opacity:.55;will-change:transform;}
+        .section > *:not(.section-bg){position:relative;z-index:1;}
+        /* —— JIEJOE 风：宣言滚动横幅（借鉴「爱做…」文案结构） —— */
+        .marquee{overflow:hidden;position:relative;margin:6px 0 18px;padding:17px 0;border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke);background:rgba(255,255,255,.03);backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);}
+        .marquee-track{display:flex;gap:60px;width:max-content;white-space:nowrap;animation:marqueeMove 30s linear infinite;}
+        .marquee-track span{font-size:1.06rem;font-weight:800;color:var(--text-2);letter-spacing:3px;}
+        .marquee-track b{color:var(--neon);text-shadow:0 0 12px var(--neon-soft);}
+        @keyframes marqueeMove{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+        /* —— JIEJOE 风：CRT 复古电视扫描线（放映厅屏幕） —— */
+        .crt{position:absolute;top:26px;right:0;bottom:32px;left:0;pointer-events:none;z-index:6;background:repeating-linear-gradient(0deg,rgba(2,6,12,.22) 0 2px,transparent 2px 4px);opacity:.5;animation:crtFlicker 5s steps(1) infinite;}
+        @keyframes crtFlicker{0%,100%{opacity:.42;}30%{opacity:.58;}60%{opacity:.48;}80%{opacity:.62;}}
+        /* —— JIEJOE 风：四角拖拽线（draglines） —— */
+        .dragline{position:fixed;width:46px;height:46px;z-index:6;pointer-events:none;opacity:.55;}
+        .dragline::before{content:'';position:absolute;background:var(--neon);opacity:.6;box-shadow:0 0 8px var(--neon-soft);}
+        .dragline::after{content:'';position:absolute;background:var(--stroke-2);}
+        .dragline.tl{top:76px;left:18px;}.dragline.tr{top:76px;right:18px;}.dragline.bl{bottom:76px;left:18px;}.dragline.br{bottom:76px;right:18px;}
+        .dragline.tl::before{top:0;left:0;width:2px;height:100%;animation:dragScaleY 3.4s ease-in-out infinite;}
+        .dragline.tl::after{top:0;left:0;width:100%;height:2px;animation:dragScaleX 3.4s ease-in-out infinite;}
+        .dragline.tr::before{top:0;right:0;width:2px;height:100%;animation:dragScaleY 3.4s ease-in-out infinite .2s;}
+        .dragline.tr::after{top:0;right:0;width:100%;height:2px;animation:dragScaleXRev 3.4s ease-in-out infinite .2s;}
+        .dragline.bl::before{bottom:0;left:0;width:2px;height:100%;animation:dragScaleYRev 3.4s ease-in-out infinite .4s;}
+        .dragline.bl::after{bottom:0;left:0;width:100%;height:2px;animation:dragScaleX 3.4s ease-in-out infinite .4s;}
+        .dragline.br::before{bottom:0;right:0;width:2px;height:100%;animation:dragScaleYRev 3.4s ease-in-out infinite .6s;}
+        .dragline.br::after{bottom:0;right:0;width:100%;height:2px;animation:dragScaleXRev 3.4s ease-in-out infinite .6s;}
+        @keyframes dragScaleY{0%{transform:scaleY(0);transform-origin:top;}25%,70%{transform:scaleY(1);transform-origin:top;}100%{transform:scaleY(0);transform-origin:top;}}
+        @keyframes dragScaleYRev{0%{transform:scaleY(0);transform-origin:bottom;}25%,70%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+        @keyframes dragScaleX{0%{transform:scaleX(0);transform-origin:left;}25%,70%{transform:scaleX(1);transform-origin:left;}100%{transform:scaleX(0);transform-origin:left;}}
+        @keyframes dragScaleXRev{0%{transform:scaleX(0);transform-origin:right;}25%,70%{transform:scaleX(1);transform-origin:right;}100%{transform:scaleX(0);transform-origin:right;}}
+        /* —— JIEJOE 风：两节机械臂（关节摆动 + 机械手） —— */
+        .mech-arm{position:absolute;right:3%;bottom:12%;width:160px;height:230px;opacity:.8;pointer-events:none;z-index:0;}
+        .arm-mount{position:absolute;bottom:0;right:10px;width:96px;height:24px;background:linear-gradient(180deg,#404040,#151515);border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.55);}
+        .arm-mount::after{content:'';position:absolute;top:-12px;right:22px;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#565656,#191919);box-shadow:0 0 14px var(--neon-soft);}
+        .arm-l1{position:absolute;bottom:24px;right:30px;width:17px;height:104px;background:linear-gradient(90deg,#434343,#171717);border-radius:9px;transform-origin:50% 100%;animation:armSwing 5.5s ease-in-out infinite;}
+        .arm-l1::after{content:'';position:absolute;top:14px;left:50%;margin-left:-8px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4c4c4c,#1a1a1a);box-shadow:0 0 10px var(--neon-soft);}
+        .arm-l2{position:absolute;bottom:112px;right:22px;width:15px;height:82px;background:linear-gradient(90deg,#4a4a4a,#1d1d1d);border-radius:8px;transform-origin:50% 0;animation:armSwing2 5.5s ease-in-out infinite;}
+        .arm-hand{position:absolute;bottom:190px;right:10px;width:56px;height:56px;animation:handBob 4.6s ease-in-out infinite;}
+        .arm-hand .palm{position:absolute;inset:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#505050,#161616);box-shadow:inset -4px -6px 12px rgba(0,0,0,.65),0 0 20px var(--neon-soft);}
+        .arm-hand .finger{position:absolute;top:10px;width:11px;height:30px;border-radius:6px;background:linear-gradient(180deg,#4c4c4c,#1d1d1d);transform-origin:50% 0;}
+        .arm-hand .f1{left:9px;transform:rotate(16deg);animation:grip 3.8s ease-in-out infinite;}
+        .arm-hand .f2{right:9px;transform:rotate(-16deg);animation:grip 3.8s ease-in-out infinite reverse;}
+        .arm-hand .f3{left:50%;margin-left:-5.5px;animation:gripMid 3.8s ease-in-out infinite;}
+        @keyframes armSwing{0%,100%{transform:rotate(7deg);}50%{transform:rotate(-5deg);}}
+        @keyframes armSwing2{0%,100%{transform:rotate(-9deg);}50%{transform:rotate(7deg);}}
+        @keyframes handBob{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(7px) rotate(5deg);}}
+        @media(max-width:760px){.dragline{display:none;}.mech-arm{display:none;}}
 
         /* 滚动进度条 */
-        .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:var(--grad);box-shadow:0 0 12px rgba(167,139,250,.6);border-radius:0 2px 2px 0;}
+        .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;background:linear-gradient(90deg,#17f700,#22d3ee,#a78bfa);box-shadow:0 0 12px var(--neon-soft);border-radius:0 2px 2px 0;}
 
         /* 鼠标跟随光晕（桌面精细指针设备） */
-        .cursor-glow{position:fixed;top:0;left:0;width:260px;height:260px;border-radius:50%;pointer-events:none;z-index:60;opacity:0;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(34,211,238,.16),rgba(167,139,250,.09) 45%,transparent 70%);mix-blend-mode:screen;transition:opacity .4s;}
+        .cursor-glow{position:fixed;top:0;left:0;width:260px;height:260px;border-radius:50%;pointer-events:none;z-index:60;opacity:0;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(23,247,0,.14),rgba(167,139,250,.08) 45%,transparent 70%);mix-blend-mode:screen;transition:opacity .4s;}
         body.ready .cursor-glow{opacity:1;} /* JS 初始化完成（桌面指针设备）后显示光标光晕 */
 
         /* ============ ③ 导航 ============ */
@@ -129,7 +217,7 @@
         .nav-links{display:flex;gap:4px;}
         .nav-links a{padding:7px 13px;border-radius:999px;color:var(--text-2);font-size:.8rem;font-weight:600;text-decoration:none;letter-spacing:.4px;transition:color var(--transition-fast),background var(--transition-fast),box-shadow var(--transition-fast);white-space:nowrap;}
         .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.08);}
-        .nav-links a.active{color:#fff;background:linear-gradient(120deg,rgba(34,211,238,.25),rgba(167,139,250,.3),rgba(244,114,182,.25));box-shadow:0 0 16px rgba(167,139,250,.3);}
+        .nav-links a.active{color:#fff;background:linear-gradient(120deg,rgba(23,247,0,.28),rgba(34,211,238,.28),rgba(167,139,250,.3));box-shadow:0 0 16px var(--neon-soft);}
         .nav-actions{display:flex;align-items:center;gap:8px;}
         .icon-btn{width:36px;height:36px;border-radius:12px;border:1px solid var(--stroke);background:rgba(255,255,255,.05);color:var(--text);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast);}
         .icon-btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(167,139,250,.3);border-color:var(--stroke-2);}
@@ -144,14 +232,48 @@
         /* ============ ④ Hero ============ */
         .hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:130px 20px 90px;}
         /* Hero 入场动画：主要元素依次上浮（hero-side/scroll-hint 保持静态避免 transform 冲突） */
-        .hero-in{opacity:0;animation:heroUp .8s cubic-bezier(.2,.8,.3,1) forwards;}
-        .hero-in:nth-child(1){animation-delay:.08s;}
-        .hero-in:nth-child(2){animation-delay:.16s;}
-        .hero-in:nth-child(3){animation-delay:.24s;}
-        .hero-in:nth-child(4){animation-delay:.32s;}
-        .hero-in:nth-child(5){animation-delay:.40s;}
-        .hero-in:nth-child(6){animation-delay:.48s;}
-        .hero-in:nth-child(7){animation-delay:.56s;}
+        /* 载入动画：进入前 Hero 隐藏，点击「进入」后依次上浮（延迟到载入层淡出后，衔接更流畅） */
+        .hero-in{opacity:0;}
+        body.entered .hero-in{animation:heroUp .8s cubic-bezier(.2,.8,.3,1) forwards;}
+        body.entered .hero-in:nth-child(1){animation-delay:.46s;}
+        body.entered .hero-in:nth-child(2){animation-delay:.54s;}
+        body.entered .hero-in:nth-child(3){animation-delay:.62s;}
+        body.entered .hero-in:nth-child(4){animation-delay:.70s;}
+        body.entered .hero-in:nth-child(5){animation-delay:.78s;}
+        body.entered .hero-in:nth-child(6){animation-delay:.86s;}
+        body.entered .hero-in:nth-child(7){animation-delay:.94s;}
+        html:not(.js) .hero-in{opacity:1;transform:none;}
+        /* —— 载入动画：一闪而过的品牌闪现（复刻参考站黑绿双块 + 大图标 + 绿字 tip） —— */
+        .loader{position:fixed;inset:0;z-index:99999;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#05080f;transition:opacity .5s ease,transform .5s ease,visibility .5s;}
+        .loader.fade-out{opacity:0;transform:scale(1.03);visibility:hidden;pointer-events:none;}
+        .loader-grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:44px 44px;opacity:.55;pointer-events:none;}
+        .loader-green{position:absolute;inset:0;background:linear-gradient(120deg,rgba(23,247,0,.2),rgba(23,247,0,.05) 60%);transform-origin:0 100%;animation:loaderGreen 2.3s cubic-bezier(.65,0,.35,1) forwards;pointer-events:none;}
+        @keyframes loaderGreen{0%{transform:scaleY(0);}30%{transform:scaleY(1);}72%{transform:scaleY(1);}100%{transform:scaleY(0);}}
+        .loader-scan{position:absolute;left:0;right:0;height:120px;background:linear-gradient(180deg,transparent,rgba(23,247,0,.12),transparent);animation:loaderScan 1.1s ease-in-out 2;pointer-events:none;}
+        @keyframes loaderScan{0%{top:-120px;}100%{top:100%;}}
+        .loader-center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:20px;}
+        /* 赛博 HUD 核心：霓虹圆环 + 反向轨道 + 十字准星 + 脉冲光点（纯线条发光，无方框） */
+        .loader-core{width:172px;height:172px;position:relative;animation:coreIn 1.3s cubic-bezier(.2,.9,.3,1.3) forwards;}
+        .loader-core svg{width:100%;height:100%;overflow:visible;}
+        .loader-core .lc{fill:none;transform-box:fill-box;transform-origin:center;}
+        .loader-core .r1{stroke:var(--neon);stroke-width:2;stroke-dasharray:44 14;animation:lcSpin 5s linear infinite;filter:drop-shadow(0 0 6px var(--neon-soft));}
+        .loader-core .r2{stroke:var(--cyan);stroke-width:1.5;stroke-dasharray:96 20;animation:lcSpinRev 3.6s linear infinite;filter:drop-shadow(0 0 6px rgba(34,211,238,.5));}
+        .loader-core .h,.loader-core .v{stroke:var(--neon);stroke-width:1.5;stroke-dasharray:26 20;animation:lcDash 2.4s linear infinite;filter:drop-shadow(0 0 5px var(--neon-soft));}
+        .loader-core .v{animation-delay:1.2s;}
+        .loader-core .dot{fill:var(--neon);filter:drop-shadow(0 0 10px var(--neon));animation:lcDot 1.4s ease-in-out infinite;}
+        .loader-core .dot2{stroke:var(--neon);stroke-width:1;animation:lcPulse 1.4s ease-out infinite;}
+        @keyframes lcSpin{to{transform:rotate(360deg);}}
+        @keyframes lcSpinRev{to{transform:rotate(-360deg);}}
+        @keyframes lcDash{from{stroke-dashoffset:0;}to{stroke-dashoffset:-46;}}
+        @keyframes lcDot{0%,100%{opacity:1;}50%{opacity:.4;}}
+        @keyframes lcPulse{0%{transform:scale(.6);opacity:.9;}100%{transform:scale(1.9);opacity:0;}}
+        @keyframes coreIn{0%{transform:scale(.6);opacity:0;}60%{transform:scale(1.08);opacity:1;}80%{transform:scale(.98);}100%{transform:scale(1);opacity:1;}}
+        .loader-tip{font-family:var(--mono);font-size:clamp(.9rem,3vw,1.25rem);font-weight:700;color:var(--neon);letter-spacing:.35em;margin-right:-.35em;text-shadow:0 0 16px var(--neon-soft);min-height:1.4em;display:flex;gap:.35em;flex-wrap:wrap;justify-content:center;}
+        .loader-tip span{opacity:0;animation:tipFlash .5s steps(1) forwards;}
+        @keyframes tipFlash{from{opacity:0;}to{opacity:1;}}
+        .loader-sub{color:var(--text-2);font-size:.85rem;letter-spacing:.4em;margin-right:-.4em;opacity:0;animation:fadeInSlow .6s ease .9s forwards;}
+        @keyframes fadeInSlow{to{opacity:1;}}
+        html:not(.js) .loader{display:none;} /* 无 JS 时自动跳过载入动画 */
         @keyframes heroUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:none;}}
         .avatar-ring{position:relative;width:132px;height:132px;border-radius:50%;padding:4px;background:conic-gradient(from 0deg,#22d3ee,#a78bfa,#f472b6,#fbbf24,#22d3ee);animation:spinRing 7s linear infinite;box-shadow:0 0 40px rgba(167,139,250,.4);margin-bottom:22px;}
         .avatar-mask{position:absolute;inset:4px;border-radius:50%;overflow:hidden;animation:spinRingRev 7s linear infinite;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0e1730,#1a2a4a);}
@@ -168,8 +290,8 @@
         .hero-tagline{color:var(--text-3);font-size:.9rem;margin-top:8px;max-width:560px;}
         .hero-actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;justify-content:center;}
         .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:999px;font-size:.9rem;font-weight:700;text-decoration:none;border:none;cursor:pointer;transition:transform var(--transition-fast),box-shadow var(--transition-fast);}
-        .btn-primary{background:var(--grad);color:#05101a;box-shadow:0 6px 24px rgba(167,139,250,.4);}
-        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 34px rgba(167,139,250,.55);}
+        .btn-primary{background:var(--grad);color:#05101a;box-shadow:0 6px 24px rgba(23,247,0,.25),0 4px 18px rgba(167,139,250,.35);}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 34px rgba(23,247,0,.4),0 8px 26px rgba(167,139,250,.45);}
         .btn-ghost{background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--stroke-2);backdrop-filter:blur(8px);}
         .btn-ghost:hover{transform:translateY(-3px);border-color:var(--violet);box-shadow:0 8px 26px rgba(167,139,250,.25);}
         .hero-meta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:34px;}
@@ -185,7 +307,7 @@
         .page{position:relative;z-index:1;}
         .section{max-width:1080px;margin:0 auto;padding:84px 18px 26px;position:relative;}
         .section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:30px;}
-        .sec-index{font-family:var(--mono);color:var(--cyan);font-size:.85rem;letter-spacing:2px;opacity:.85;}
+        .sec-index{font-family:var(--mono);color:var(--neon);font-size:.85rem;letter-spacing:2px;opacity:.9;text-shadow:0 0 10px var(--neon-soft);}
         .section-head h2{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:1px;}
         .sec-line{flex:1;height:1px;background:linear-gradient(90deg,var(--stroke-2),transparent);margin-left:4px;}
         .glass-card{
@@ -231,9 +353,21 @@
         .timeline-desc li{padding-left:16px;position:relative;margin-bottom:3px;}
         .timeline-desc li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:.62rem;}
 
-        .cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px;}
-        @media(min-width:880px){.cert-grid{grid-template-columns:repeat(3,1fr);}}
-        .cert-flip{perspective:1000px;cursor:zoom-in;position:relative;}
+        /* 证书动态滚动：桌面自动滚动 + hover 暂停；移动端原生横滑（依次展示） */
+        .cert-scroll{margin-top:20px;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);}
+        .cert-track{display:flex;padding:6px 0 14px;width:max-content;} /* 卡片用 margin-right 提供间距，保证 -50% 精确等于内容周期，实现真正无缝 */
+        .cert-flip[aria-hidden="true"]{pointer-events:none;} /* 副本不可交互 */
+        @media(hover:hover){
+            .cert-scroll{overflow:hidden;}
+            .cert-track{animation:certScroll 75s linear infinite;}
+            .cert-scroll:hover .cert-track{animation-play-state:paused;}
+        }
+        @media(hover:none){
+            .cert-scroll{overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;}
+            .cert-flip{scroll-snap-align:start;}
+        }
+        @keyframes certScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+        .cert-flip{flex:0 0 178px;margin-right:16px;perspective:1000px;position:relative;}
         .cert-flip:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:16px;}
         .cert-inner{position:relative;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.8,.25,1);aspect-ratio:1.414/1;}
         @media(hover:hover){.cert-flip:hover .cert-inner{transform:rotateY(180deg);}}
@@ -313,7 +447,8 @@
         .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
         .photo-item{aspect-ratio:1/1;overflow:hidden;border-radius:14px;cursor:zoom-in;position:relative;border:1px solid var(--stroke);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:var(--text-2);background:var(--bg-2);}
         .photo-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
-        .photo-item:hover img{transform:scale(1.08);}
+        .photo-item:hover img{animation:imgWave 1.4s ease-in-out infinite;}
+        @keyframes imgWave{0%,100%{transform:translateY(0) scale(1.06);}25%{transform:translateY(-2px) scale(1.07);}50%{transform:translateY(1px) scale(1.06);}75%{transform:translateY(-1px) scale(1.07);}}
         .photo-item:focus-visible{outline:2px solid var(--violet);outline-offset:2px;}
 
         /* ============ ⑨ Skills ============ */
@@ -358,7 +493,7 @@
         .lightbox-content{background:transparent;border:none;box-shadow:none;max-width:min(92vw,840px);width:auto;padding:0;}
         .lightbox-content .modal-close{color:#fff;top:-8px;right:-8px;font-size:34px;}
         .lightbox-content img{max-width:100%;max-height:82vh;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.7);display:block;border:1px solid rgba(255,255,255,.12);}
-        .back-to-top{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:14px;border:none;background:var(--grad);color:#05101a;font-size:1.1rem;font-weight:800;cursor:pointer;box-shadow:0 8px 26px rgba(167,139,250,.45);opacity:0;visibility:hidden;transform:translateY(10px);transition:all var(--transition-smooth);z-index:90;}
+        .back-to-top{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:14px;border:none;background:linear-gradient(135deg,#17f700,#22d3ee);color:#05101a;font-size:1.1rem;font-weight:800;cursor:pointer;box-shadow:0 8px 26px rgba(23,247,0,.35);opacity:0;visibility:hidden;transform:translateY(10px);transition:all var(--transition-smooth);z-index:90;}
         .back-to-top.show{opacity:1;visibility:visible;transform:none;}
         .back-to-top:hover{transform:translateY(-3px);}
 
@@ -366,12 +501,41 @@
         @media (prefers-reduced-motion: reduce){
             *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
             .reveal{opacity:1!important;transform:none!important;}
+            .cert-scroll{overflow-x:auto;} /* 关闭自动滚动动画后，证书轨道改为可横向滚动浏览 */
         }
     </style>
 </head>
 <body>
+<!-- 载入动画：一闪而过的品牌闪现（黑绿双块 + 大图标 + 绿字 tip，自动进入，点击可跳过） -->
+<div class="loader" id="intro" role="dialog" aria-label="载入中">
+    <div class="loader-green" aria-hidden="true"></div>
+    <div class="loader-grid" aria-hidden="true"></div>
+    <div class="loader-scan" aria-hidden="true"></div>
+    <div class="loader-center">
+        <div class="loader-core" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+                <circle class="lc r1" cx="100" cy="100" r="86"/>
+                <circle class="lc r2" cx="100" cy="100" r="60"/>
+                <line class="lc h" x1="16" y1="100" x2="184" y2="100"/>
+                <line class="lc v" x1="100" y1="16" x2="100" y2="184"/>
+                <circle class="lc dot" cx="100" cy="100" r="7"/>
+                <circle class="lc dot2" cx="100" cy="100" r="16"/>
+            </svg>
+        </div>
+        <div class="loader-tip" id="loaderTip" aria-hidden="true">SUN JIAWEI · MECH × AI</div>
+        <div class="loader-sub">机械 × AI · 在线个人简历</div>
+    </div>
+</div>
 <!-- 滚动进度条 -->
 <div class="scroll-progress" id="scrollProgress"></div>
+<!-- JIEJOE 风：两侧滚动视觉线 -->
+<div class="vline left" aria-hidden="true"></div>
+<div class="vline right" aria-hidden="true"></div>
+<!-- JIEJOE 风：四角拖拽线 -->
+<div class="dragline tl" aria-hidden="true"></div>
+<div class="dragline tr" aria-hidden="true"></div>
+<div class="dragline bl" aria-hidden="true"></div>
+<div class="dragline br" aria-hidden="true"></div>
 <!-- 鼠标跟随光晕 -->
 <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
@@ -382,6 +546,9 @@
     <div class="bg-glow glow-2"></div>
     <div class="bg-glow glow-3"></div>
     <div class="bg-grid"></div>
+    <div class="bg-grid-eng"></div>
+    <div class="bg-cross c1"></div>
+    <div class="bg-cross c2"></div>
     <div class="bg-stars" id="bgStars"></div>
 </div>
 
@@ -415,8 +582,15 @@
     </div>
     <div class="hero-meta hero-in">
         <span>📍 上海</span>
-        <span>📞 1XX-XXXX-XXXX</span>
+        <span>📞 18569971322</span>
         <span>✉️ example@email.com</span>
+    </div>
+    <!-- JIEJOE 风：两节机械臂（关节摆动 + 机械手） -->
+    <div class="mech-arm" aria-hidden="true">
+        <div class="arm-mount"></div>
+        <div class="arm-l1"></div>
+        <div class="arm-l2"></div>
+        <div class="arm-hand"><div class="palm"></div><div class="finger f1"></div><div class="finger f2"></div><div class="finger f3"></div></div>
     </div>
     <div class="hero-side left">EST. 2026</div>
     <div class="hero-side">SHANGHAI · CN</div>
@@ -426,6 +600,7 @@
 <main class="page">
     <!-- ========== About ========== -->
     <section class="section" id="about">
+        <span class="section-bg" aria-hidden="true">ABOUT</span>
         <div class="section-head">
             <span class="sec-index">01</span><h2>关于我</h2><span class="sec-line"></span>
         </div>
@@ -452,8 +627,17 @@
         </div>
     </section>
 
+    <!-- JIEJOE 风：宣言滚动横幅（「爱做…」结构） -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <span>✦ 爱用代码折腾有趣的东西 ✦ <b>爱用镜头记录生活</b> ✦ 爱把 AI 用在实处 ✦ <b>文理兼修 · 机械 × AI</b></span>
+            <span>✦ 爱用代码折腾有趣的东西 ✦ <b>爱用镜头记录生活</b> ✦ 爱把 AI 用在实处 ✦ <b>文理兼修 · 机械 × AI</b></span>
+        </div>
+    </div>
+
     <!-- ========== Education ========== -->
     <section class="section" id="edu">
+        <span class="section-bg" aria-hidden="true">EDUCATION</span>
         <div class="section-head">
             <span class="sec-index">02</span><h2>教育背景</h2><span class="sec-line"></span>
         </div>
@@ -478,54 +662,212 @@
         <div class="section-head" style="margin-top:36px;margin-bottom:20px;">
             <span class="sec-index">+</span><h2>证书认证</h2><span class="sec-line"></span>
         </div>
-        <div class="cert-grid">
-            <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看AI训练师高级证书">
-                <div class="cert-inner">
-                    <div class="cert-front"><img src="ai训练师高级证书.png" alt="AI训练师高级证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
-                    <div class="cert-back"><span class="cb-badge">🥇</span><strong>AI训练师 · 高级</strong><span>阿里巴巴达摩院 AI 训练师认证（高级）</span></div>
+        <div class="cert-scroll">
+            <div class="cert-track">
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看科大讯飞大模型微调工程师证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="科大微调工程师.jpg" alt="科大讯飞大模型微调工程师证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎓</span><strong>科大讯飞 · 大模型微调工程师</strong><span>科大讯飞大模型微调工程师认证</span></div>
+                    </div>
+                    <div class="cert-cap">🎓 科大讯飞 · 微调工程师</div>
                 </div>
-                <div class="cert-cap">🥇 AI训练师 · 高级</div>
-            </div>
-            <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看AI训练师初级证书">
-                <div class="cert-inner">
-                    <div class="cert-front"><img src="ai训练师初级证书.png" alt="AI训练师初级证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
-                    <div class="cert-back"><span class="cb-badge">🥈</span><strong>AI训练师 · 初级</strong><span>阿里巴巴达摩院 AI 训练师认证（初级）</span></div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看科大讯飞RAG工程师证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="科大RAG工程师.jpg" alt="科大讯飞RAG工程师证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎓</span><strong>科大讯飞 · RAG 工程师</strong><span>科大讯飞 RAG 工程师认证</span></div>
+                    </div>
+                    <div class="cert-cap">🎓 科大讯飞 · RAG 工程师</div>
                 </div>
-                <div class="cert-cap">🥈 AI训练师 · 初级</div>
-            </div>
-            <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看通义灵码AI编码实践证书">
-                <div class="cert-inner">
-                    <div class="cert-front"><img src="基于通义灵码实现高效AI编码实践.jpg" alt="基于通义灵码实现高效AI编码实践证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
-                    <div class="cert-back"><span class="cb-badge">🛠️</span><strong>通义灵码 · 高效AI编码实践</strong><span>掌握 AI 辅助编码工具的高效实践方法</span></div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看科大讯飞Prompt工程师证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="科大Prompt工程师.jpg" alt="科大讯飞Prompt工程师证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎓</span><strong>科大讯飞 · Prompt 工程师</strong><span>科大讯飞 Prompt 工程师认证</span></div>
+                    </div>
+                    <div class="cert-cap">🎓 科大讯飞 · Prompt 工程师</div>
                 </div>
-                <div class="cert-cap">🛠️ 通义灵码 · AI编码实践</div>
-            </div>
-            <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看百炼平台智能体应用证书">
-                <div class="cert-inner">
-                    <div class="cert-front"><img src="基于百炼平台构建智能体应用.jpg" alt="基于百炼平台构建智能体应用证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
-                    <div class="cert-back"><span class="cb-badge">🤖</span><strong>百炼平台 · 智能体应用</strong><span>学会基于百炼平台构建智能体（Agent）应用</span></div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看科大讯飞智能体工程师证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="科大智能体工程师.jpg" alt="科大讯飞智能体工程师证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎓</span><strong>科大讯飞 · 智能体工程师</strong><span>科大讯飞智能体工程师认证</span></div>
+                    </div>
+                    <div class="cert-cap">🎓 科大讯飞 · 智能体工程师</div>
                 </div>
-                <div class="cert-cap">🤖 百炼平台 · 智能体应用</div>
-            </div>
-            <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看VISION人工智能设计证书">
-                <div class="cert-inner">
-                    <div class="cert-front"><img src="VISION人工智能设计(入门).jpg" alt="VISION人工智能设计（入门）证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
-                    <div class="cert-back"><span class="cb-badge">🎨</span><strong>VISION · 人工智能设计（入门）</strong><span>人工智能视觉设计入门技能</span></div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看阿里云大模型证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="阿里云大模型.jpg" alt="阿里云大模型证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">☁️</span><strong>阿里云 · 大模型</strong><span>阿里云大模型能力认证</span></div>
+                    </div>
+                    <div class="cert-cap">☁️ 阿里云 · 大模型</div>
                 </div>
-                <div class="cert-cap">🎨 VISION · AI设计（入门）</div>
-            </div>
-            <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看PAI ArtLab的AIGC设计基础证书">
-                <div class="cert-inner">
-                    <div class="cert-front"><img src="基于PAI ArtLab的AIGC设计基础.jpg" alt="基于PAI ArtLab的AIGC设计基础证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
-                    <div class="cert-back"><span class="cb-badge">🖼️</span><strong>PAI ArtLab · AIGC设计基础</strong><span>AIGC 视觉设计基础能力</span></div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看阿里云Spring AI证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="阿里云Spring AI.jpg" alt="阿里云Spring AI证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">☁️</span><strong>阿里云 · Spring AI</strong><span>阿里云 Spring AI 应用开发认证</span></div>
+                    </div>
+                    <div class="cert-cap">☁️ 阿里云 · Spring AI</div>
                 </div>
-                <div class="cert-cap">🖼️ PAI ArtLab · AIGC设计</div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看阿里云Vision进阶证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="阿里云Vision进阶.jpg" alt="阿里云Vision进阶证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">☁️</span><strong>阿里云 · Vision 进阶</strong><span>阿里云 Vision 视觉模型进阶认证</span></div>
+                    </div>
+                    <div class="cert-cap">☁️ 阿里云 · Vision 进阶</div>
+                </div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看阿里云RAG证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="阿里云RAG.jpg" alt="阿里云RAG证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">☁️</span><strong>阿里云 · RAG</strong><span>阿里云 RAG 检索增强生成认证</span></div>
+                    </div>
+                    <div class="cert-cap">☁️ 阿里云 · RAG</div>
+                </div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看AI训练师高级证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="ai训练师高级证书.png" alt="AI训练师高级证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🥇</span><strong>AI训练师 · 高级</strong><span>阿里巴巴达摩院 AI 训练师认证（高级）</span></div>
+                    </div>
+                    <div class="cert-cap">🥇 AI训练师 · 高级</div>
+                </div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看AI训练师初级证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="ai训练师初级证书.png" alt="AI训练师初级证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🥈</span><strong>AI训练师 · 初级</strong><span>阿里巴巴达摩院 AI 训练师认证（初级）</span></div>
+                    </div>
+                    <div class="cert-cap">🥈 AI训练师 · 初级</div>
+                </div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看通义灵码AI编码实践证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="基于通义灵码实现高效AI编码实践.jpg" alt="基于通义灵码实现高效AI编码实践证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🛠️</span><strong>通义灵码 · 高效AI编码实践</strong><span>掌握 AI 辅助编码工具的高效实践方法</span></div>
+                    </div>
+                    <div class="cert-cap">🛠️ 通义灵码 · AI编码实践</div>
+                </div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看百炼平台智能体应用证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="基于百炼平台构建智能体应用.jpg" alt="基于百炼平台构建智能体应用证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🤖</span><strong>百炼平台 · 智能体应用</strong><span>学会基于百炼平台构建智能体（Agent）应用</span></div>
+                    </div>
+                    <div class="cert-cap">🤖 百炼平台 · 智能体应用</div>
+                </div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看VISION人工智能设计证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="VISION人工智能设计(入门).jpg" alt="VISION人工智能设计（入门）证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎨</span><strong>VISION · 人工智能设计（入门）</strong><span>人工智能视觉设计入门技能</span></div>
+                    </div>
+                    <div class="cert-cap">🎨 VISION · AI设计（入门）</div>
+                </div>
+                <div class="cert-flip reveal" tabindex="0" role="button" aria-label="放大查看PAI ArtLab的AIGC设计基础证书">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="基于PAI ArtLab的AIGC设计基础.jpg" alt="基于PAI ArtLab的AIGC设计基础证书（点击放大）" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🖼️</span><strong>PAI ArtLab · AIGC设计基础</strong><span>AIGC 视觉设计基础能力</span></div>
+                    </div>
+                    <div class="cert-cap">🖼️ PAI ArtLab · AIGC设计</div>
+                </div>
+                <!-- 双份副本：实现无缝循环滚动（读屏隐藏） -->
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="科大微调工程师.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎓</span><strong>科大讯飞 · 大模型微调工程师</strong><span>科大讯飞大模型微调工程师认证</span></div>
+                    </div>
+                    <div class="cert-cap">🎓 科大讯飞 · 微调工程师</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="科大RAG工程师.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎓</span><strong>科大讯飞 · RAG 工程师</strong><span>科大讯飞 RAG 工程师认证</span></div>
+                    </div>
+                    <div class="cert-cap">🎓 科大讯飞 · RAG 工程师</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="科大Prompt工程师.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎓</span><strong>科大讯飞 · Prompt 工程师</strong><span>科大讯飞 Prompt 工程师认证</span></div>
+                    </div>
+                    <div class="cert-cap">🎓 科大讯飞 · Prompt 工程师</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="科大智能体工程师.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎓</span><strong>科大讯飞 · 智能体工程师</strong><span>科大讯飞智能体工程师认证</span></div>
+                    </div>
+                    <div class="cert-cap">🎓 科大讯飞 · 智能体工程师</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="阿里云大模型.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">☁️</span><strong>阿里云 · 大模型</strong><span>阿里云大模型能力认证</span></div>
+                    </div>
+                    <div class="cert-cap">☁️ 阿里云 · 大模型</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="阿里云Spring AI.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">☁️</span><strong>阿里云 · Spring AI</strong><span>阿里云 Spring AI 应用开发认证</span></div>
+                    </div>
+                    <div class="cert-cap">☁️ 阿里云 · Spring AI</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="阿里云Vision进阶.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">☁️</span><strong>阿里云 · Vision 进阶</strong><span>阿里云 Vision 视觉模型进阶认证</span></div>
+                    </div>
+                    <div class="cert-cap">☁️ 阿里云 · Vision 进阶</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="阿里云RAG.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">☁️</span><strong>阿里云 · RAG</strong><span>阿里云 RAG 检索增强生成认证</span></div>
+                    </div>
+                    <div class="cert-cap">☁️ 阿里云 · RAG</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="ai训练师高级证书.png" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🥇</span><strong>AI训练师 · 高级</strong><span>阿里巴巴达摩院 AI 训练师认证（高级）</span></div>
+                    </div>
+                    <div class="cert-cap">🥇 AI训练师 · 高级</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="ai训练师初级证书.png" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🥈</span><strong>AI训练师 · 初级</strong><span>阿里巴巴达摩院 AI 训练师认证（初级）</span></div>
+                    </div>
+                    <div class="cert-cap">🥈 AI训练师 · 初级</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="基于通义灵码实现高效AI编码实践.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🛠️</span><strong>通义灵码 · 高效AI编码实践</strong><span>掌握 AI 辅助编码工具的高效实践方法</span></div>
+                    </div>
+                    <div class="cert-cap">🛠️ 通义灵码 · AI编码实践</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="基于百炼平台构建智能体应用.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🤖</span><strong>百炼平台 · 智能体应用</strong><span>学会基于百炼平台构建智能体（Agent）应用</span></div>
+                    </div>
+                    <div class="cert-cap">🤖 百炼平台 · 智能体应用</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="VISION人工智能设计(入门).jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🎨</span><strong>VISION · 人工智能设计（入门）</strong><span>人工智能视觉设计入门技能</span></div>
+                    </div>
+                    <div class="cert-cap">🎨 VISION · AI设计（入门）</div>
+                </div>
+                <div class="cert-flip" aria-hidden="true" tabindex="-1">
+                    <div class="cert-inner">
+                        <div class="cert-front"><img src="基于PAI ArtLab的AIGC设计基础.jpg" alt="" onerror="this.parentElement.innerHTML='📄';"></div>
+                        <div class="cert-back"><span class="cb-badge">🖼️</span><strong>PAI ArtLab · AIGC设计基础</strong><span>AIGC 视觉设计基础能力</span></div>
+                    </div>
+                    <div class="cert-cap">🖼️ PAI ArtLab · AIGC设计</div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ========== Experience 实践经历 ========== -->
     <section class="section" id="exp">
+        <span class="section-bg" aria-hidden="true">EXPERIENCE</span>
         <div class="section-head">
             <span class="sec-index">03</span><h2>实践经历</h2><span class="sec-line"></span>
         </div>
@@ -551,6 +893,7 @@
 
     <!-- ========== Projects ========== -->
     <section class="section" id="projects">
+        <span class="section-bg" aria-hidden="true">PROJECTS</span>
         <div class="section-head">
             <span class="sec-index">04</span><h2>项目作品</h2><span class="sec-line"></span>
         </div>
@@ -599,6 +942,7 @@
                     </div></div>
                 </div>
             </div>
+            <div class="crt" aria-hidden="true"></div>
             <div class="film-strip"></div>
             <div class="cinema-floor"></div>
         </div>
@@ -616,6 +960,7 @@
 
     <!-- ========== Skills ========== -->
     <section class="section" id="skills">
+        <span class="section-bg" aria-hidden="true">SKILLS</span>
         <div class="section-head">
             <span class="sec-index">05</span><h2>技能特长</h2><span class="sec-line"></span>
         </div>
@@ -657,6 +1002,7 @@
 
     <!-- ========== Contact ========== -->
     <section class="section" id="contact">
+        <span class="section-bg" aria-hidden="true">CONTACT</span>
         <div class="section-head">
             <span class="sec-index">06</span><h2>联系我</h2><span class="sec-line"></span>
         </div>
@@ -720,11 +1066,63 @@ function observeReveal() {
         }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
     }
     document.querySelectorAll(revealEls).forEach(el => {
+        if (el.closest('[aria-hidden="true"]')) return; // 跳过 aria-hidden 副本
         if (!el.classList.contains('reveal')) el.classList.add('reveal');
         if (!el.classList.contains('visible')) revealObserver.observe(el);
     });
 }
 observeReveal();
+// 兜底：滚动/尺寸变化时手动检查视口内元素并显示（即使 IO 失效内容也不隐藏）
+(function revealFallback() {
+    let ticking = false;
+    const check = () => {
+        const vh = window.innerHeight;
+        document.querySelectorAll(revealEls).forEach(el => {
+            if (el.closest('[aria-hidden="true"]')) return;
+            if (el.classList.contains('visible')) return;
+            const r = el.getBoundingClientRect();
+            if (r.top < vh * .95 && r.bottom > 0) el.classList.add('visible');
+        });
+        ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(check);
+    }, { passive: true });
+    window.addEventListener('resize', check, { passive: true });
+    setTimeout(check, 400); // 初始与进入后兜底
+})();
+
+/* ============ 〇 载入动画：一闪而过的品牌闪现（自动进入，点击可跳过；后台静默预热 AI 模型） ============ */
+function enterSite() {
+    if (document.body.classList.contains('entered')) return;
+    document.body.classList.add('entered');
+    const intro = document.getElementById('intro');
+    if (intro) {
+        intro.classList.add('fade-out');
+        setTimeout(() => { if (intro.parentNode) intro.parentNode.removeChild(intro); }, 550);
+    }
+    requestAnimationFrame(() => observeReveal());
+}
+(function initLoader() {
+    // 绿字 tip 逐字母闪现
+    const tip = document.getElementById('loaderTip');
+    if (tip) {
+        const text = tip.textContent;
+        tip.textContent = '';
+        Array.from(text).forEach((ch, i) => {
+            const s = document.createElement('span');
+            s.textContent = ch === ' ' ? '\u00A0' : ch;
+            s.style.animationDelay = (.45 + i * .045).toFixed(3) + 's';
+            tip.appendChild(s);
+        });
+    }
+    // 自动进入（一闪而过，约 2.35s）+ 点击跳过
+    setTimeout(enterSite, 2350);
+    const intro = document.getElementById('intro');
+    if (intro) intro.addEventListener('click', () => { if (!document.body.classList.contains('entered')) enterSite(); });
+})();
 
 /* ============ ① 主题切换（默认深色霓虹，localStorage 记忆） ============ */
 (function initTheme() {
@@ -1052,15 +1450,17 @@ function releaseFocus(modal) {
         lightbox.classList.add('active');
         trapFocus(lightbox, lastTrigger);
     };
-    // 点击图片放大（证书正面 / 摄影作品）
+    // 点击图片放大（证书正面 / 摄影作品；跳过 aria-hidden 副本）
     document.querySelectorAll('.cert-front img, .photo-item img').forEach(img => {
+        if (img.closest('[aria-hidden="true"]')) return;
         img.addEventListener('click', () => {
             lastTrigger = img.closest('.cert-flip, .photo-item') || img;
             openLightbox(img.src, img.alt);
         });
     });
-    // 证书背面 / 翻转后点击也可放大
+    // 证书背面 / 翻转后点击也可放大（跳过副本）
     document.querySelectorAll('.cert-flip').forEach(box => {
+        if (box.closest('[aria-hidden="true"]')) return;
         box.addEventListener('click', (e) => {
             if (e.target.tagName === 'IMG') return; // 正面图片已有独立处理
             const img = box.querySelector('.cert-front img');
@@ -1070,8 +1470,9 @@ function releaseFocus(modal) {
             }
         });
     });
-    // 键盘可达：Enter / 空格
+    // 键盘可达：Enter / 空格（跳过副本）
     document.querySelectorAll('.cert-flip, .photo-item').forEach(box => {
+        if (box.closest('[aria-hidden="true"]')) return;
         box.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -1253,6 +1654,38 @@ if (imgUploadEl) imgUploadEl.addEventListener('change', async (e) => {
         label.textContent = '已复制 ✓';
         setTimeout(() => { label.textContent = orig; }, 1600);
     });
+})();
+
+/* ============ ⑫ 巨型背景字滚动视差（JIEJOE 风设计师排版） ============ */
+(function initBgWords() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const bgs = document.querySelectorAll('.section-bg');
+    if (!bgs.length) return;
+    let ticking = false;
+    function update() {
+        const mid = window.innerHeight / 2;
+        bgs.forEach(bg => {
+            const sec = bg.closest('section');
+            if (!sec) return;
+            const r = sec.getBoundingClientRect();
+            bg.style.transform = 'translateY(' + ((r.top + r.height / 2 - mid) * .12).toFixed(1) + 'px)';
+        });
+    }
+    window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => { update(); ticking = false; });
+    }, { passive: true });
+    update();
+})();
+
+/* ============ 〇 后台静默预热 AI 模型（置于脚本末尾，TFJS_CDNS 等声明已就绪，避免 TDZ；不阻塞进入） ============ */
+(async () => {
+    try {
+        if (!window.tf) await loadScriptFromList(TFJS_CDNS);
+        if (!window.mobilenet) await loadScriptFromList(MOBILENET_CDNS);
+        mobilenetModel = await mobilenet.load({ version: 2, alpha: 1.0 });
+    } catch (e) { /* 模型不可用则忽略，分类器点击时按需加载 */ }
 })();
 </script>
 </body>
