@@ -1,0 +1,10 @@
+.lunar-pointer{position:fixed;inset:auto;left:0;top:0;width:0;height:0;margin:0;padding:0;border:0;background:none;overflow:visible;pointer-events:none!important;z-index:10020;opacity:0;color:#e3ebf4;transition:opacity .15s;contain:layout style}
+.lunar-pointer:popover-open{display:block}
+.lunar-pointer.is-visible{opacity:1}
+.lunar-pointer-ring{position:absolute;width:22px;height:22px;left:-11px;top:-11px;border:.8px solid #e4ecf5b3;border-radius:50%;background:#d5e3f707;box-shadow:0 0 13px #bcd5f344,inset 0 0 8px #d4e1f411;transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .2s,background .2s}
+.lunar-pointer-core{position:absolute;left:-1.5px;top:-1.5px;width:3px;height:3px;border-radius:50%;background:#f2f3ee;box-shadow:0 0 6px #d4e4f5b0;transition:transform .18s}
+.lunar-pointer.is-action .lunar-pointer-ring{transform:scale(1.45);border-color:#f1eee9d9;background:#d7e8fa0c}
+.lunar-pointer.is-down .lunar-pointer-ring{transform:scale(.76);border-color:#faf7ef}
+.lunar-pointer.is-down .lunar-pointer-core{transform:scale(.7)}
+@media(any-pointer:fine){html.lunar-pointer-enabled,html.lunar-pointer-enabled *{cursor:none!important}}
+@media(prefers-reduced-motion:reduce){.lunar-pointer,.lunar-pointer-ring,.lunar-pointer-core{transition:none}}

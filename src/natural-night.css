@@ -1,0 +1,35 @@
+/* The sky is one lightweight shared SVG; existing chapter drift gives it depth. */
+.star-sky{position:absolute;inset:-6%;background:url('/assets/night-sky.svg') center/cover no-repeat;opacity:.9;translate:0 calc(var(--chapter-drift) * .4);pointer-events:none}
+.chapter-halo{opacity:.55}
+.chapter-drawing{opacity:.045}
+.drawing-projects,.drawing-photography{opacity:.028}
+.drawing-certificates{opacity:.05}
+.chapter-projects .star-sky{background-position:60% 30%;opacity:.8}
+.chapter-photography .star-sky{background-position:40% 70%;opacity:.72}
+.chapter-certificates .star-sky{background-position:70% 50%;opacity:.8}
+.chapter-strengths .star-sky{background-position:50% 80%;opacity:.85}
+.chapter-contact .star-sky{background-position:60% 25%;opacity:1}
+.journal .strengths-wrap,.journal .certificates-section,.journal .contact-section{background:transparent}
+.journal .hero-video{opacity:.4}
+.journal .hero-shade{background:linear-gradient(90deg,#111a3040,transparent 68%),linear-gradient(0deg,#131b30,transparent 28%),url('/assets/night-sky.svg') center/cover no-repeat}
+.journal .strength-card{background:#1c2c40c4}
+.journal .strength-card:hover{background:#23344ad4}
+
+.journal .moonlight-orbits{height:auto;aspect-ratio:1}
+.moonlight-moon-layer{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.orbiting-items-3d{position:absolute;inset:0;pointer-events:none}
+.orbiting-items-3d a{pointer-events:auto;will-change:transform}
+.orbiting-items-3d a:focus-visible{outline:1px solid #d9e4f780;outline-offset:3px}
+.orbit-spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#d9e6fa;box-shadow:0 0 9px #aecbfb70;pointer-events:none}
+.orbit-spark:after{content:'';position:absolute;right:4px;top:1px;width:14px;height:1px;background:linear-gradient(90deg,transparent,#d0ddf844);transform:rotate(-18deg);transform-origin:right}
+.journal .moonlight-note{z-index:8;pointer-events:none}
+.lunar-surface{opacity:.94}
+.journal .lunar-horizon svg{opacity:.92}
+
+@media(max-width:760px){
+  .star-sky{background-size:auto 1100px;background-repeat:repeat-y;opacity:.7}
+  .journal .hero-shade{background:linear-gradient(0deg,#131b30,transparent 32%),url('/assets/night-sky.svg') 65% 0/auto 1100px no-repeat}
+  .journal .moonlight-note{bottom:-2%;min-height:0}
+  .journal .lunar-horizon svg{opacity:.5}
+}
+@media(prefers-reduced-motion:reduce){.star-sky{translate:0 0}.orbiting-items-3d a{will-change:auto}}

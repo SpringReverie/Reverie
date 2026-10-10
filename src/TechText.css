@@ -1,0 +1,14 @@
+.tech-text {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.tech-text-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}/* Held glyphs escape both line canvases and the masked chapter stacking contexts. */
+.tech-text-drag-layer{position:fixed;inset:0;width:100vw;height:100vh;z-index:10000;pointer-events:none;user-select:none}

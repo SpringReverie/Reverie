@@ -1,0 +1,145 @@
+/* Moonlit field notes: varied compositions within the shared lunar palette. */
+.journal .section{padding-top:56px;padding-bottom:65px}
+.journal .section-label{margin-bottom:28px}
+.journal h2{font-size:clamp(36px,3.7vw,62px);line-height:1.4}
+.journal .section-heading{margin-bottom:20px;align-items:flex-end}
+.journal .section-heading-aside{width:38%;padding-bottom:10px}
+.journal .section-heading-aside p{font-size:12px}
+.journal .section-heading-aside .mono{font-size:8px}
+.journal .hero{min-height:760px}
+.journal .hero-body{padding-top:140px}
+.journal .hero-content{width:54%;padding-top:29px;padding-bottom:25px}
+.journal .hero-tech-line{height:clamp(115px,9.7vw,170px)}
+.journal .hero-description{margin:17px 0 23px}
+.journal .moonlight-study{width:48%;right:0;top:48%;pointer-events:auto;opacity:1}
+.journal .moonlight-orbits{pointer-events:none}
+.atlas-nodes a{position:absolute;left:var(--node-x);top:var(--node-y);transform:translate(-50%,-50%);display:flex;align-items:center;gap:13px;padding:13px;white-space:nowrap;color:#c5d2e8;font-family:var(--display);font-size:14px;letter-spacing:2px;border-radius:30px;transition:background .35s,color .35s}
+.atlas-nodes a:hover,.atlas-nodes a:focus-visible{background:#bccdef10;color:#fff6df}
+.atlas-nodes i{width:5px;height:5px;background:#d8e5fa;border-radius:50%;box-shadow:0 0 0 5px #b8cbee0a,0 0 15px #cddfff66;transition:box-shadow .35s}
+.atlas-nodes a:hover i{box-shadow:0 0 0 8px #b8cbee18,0 0 25px #cddfff99}
+.atlas-nodes small{display:block;color:#8196b7;letter-spacing:1px;font-size:7px;margin-top:7px}
+.journal .moonlight-note{bottom:1%;min-height:54px}
+.journal .moonlight-note p{font-size:12px;letter-spacing:2px;line-height:1.8;max-width:90%;margin:11px auto 0}
+.chapter-drawing{position:absolute;inset:0;width:100%;height:100%;color:#d6e0f4;opacity:.075}
+.drawing-projects{opacity:.045}.drawing-photography{opacity:.045}.drawing-certificates{opacity:.08}
+.journal .chapter-dust{opacity:.2}
+.journal .about-grid{grid-template-columns:minmax(260px,.66fr) 1.34fr;gap:6%;align-items:center}
+.journal .profile-card{max-width:400px}
+.journal .profile-visual{aspect-ratio:1.15;min-height:0}
+.journal .avatar-frame{width:45%;max-width:175px}
+.journal .profile-coordinate{font-size:8px;top:22px;left:22px}
+.journal .profile-visual-label{font-size:8px;bottom:23px;left:22px}
+.journal .profile-card-bottom{padding:20px 22px;gap:10px}
+.journal .profile-card-bottom h3{font-size:23px}
+.journal .about-content h2{font-size:clamp(35px,3.2vw,54px)}
+.journal .about-lead{font-size:16px;line-height:1.9;margin-top:14px}
+.journal .body-copy{font-size:12px;line-height:2.15;margin-top:16px;max-width:650px}
+.journal .about-links{margin-top:20px;gap:26px}
+.journal .stats{margin-top:22px;padding-top:20px;max-width:620px}
+.journal .stats strong{font-size:39px}
+.journal .stats p{font-size:10px}
+.journey{margin-top:38px;padding-top:23px;border-top:1px solid var(--border)}
+.journey-heading{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.journey-heading>.mono{font-size:8px;color:#8da1c2}
+.journey-heading h3{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:1px}
+.journey-path{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:25px;padding-top:30px}
+.journey-line{position:absolute;top:1px;left:0;width:100%;height:95px;stroke:#a6bce339;pointer-events:none}
+.journey-stop{position:relative;padding:20px 18px 12px 0}
+.journey-star{position:absolute;left:0;top:0;width:5px;height:5px;background:#dae5f6;border-radius:50%;box-shadow:0 0 0 5px #b9cef012,0 0 18px #b9cef099}
+.journey-date{font-size:9px;color:#849cbe}
+.journey-stop h4{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.7;margin:12px 0 9px;color:#d3dded}
+.journey-stop p{font-size:11px;line-height:2;color:#9aacc7;max-width:335px}
+.journey-stop a,.journey-stop button,.journey-label{display:inline-flex;gap:15px;align-items:center;background:none;padding:0;color:#c7d5ee;font-size:10px;margin-top:17px}
+.journey-number{position:absolute;right:5px;top:22px;font-size:8px;color:#7086a6}
+.journal .project-filters{padding:14px 0 24px}
+.projects-journal{display:grid;grid-template-columns:1.06fr .94fr;gap:40px 38px;align-items:start}
+.projects-journal .project-featured{grid-column:1/-1;display:grid;grid-template-columns:1.25fr 1fr;gap:35px;padding:22px;background:#a1bced05;border:1px solid #b6c9e721;border-radius:8px}
+.journal .project-featured .project-image{aspect-ratio:auto;min-height:370px;height:100%}
+.journal .project-featured .project-details{padding:12px 7px 12px 0;display:flex;flex-direction:column}
+.journal .project-featured .project-heading h3{font-size:32px}
+.project-overline{font-size:8px;color:#8aa2c6;display:block;margin-bottom:12px}
+.journal .project-details>p{max-width:100%;margin:14px 0 19px;font-size:12px;line-height:2}
+.project-notes{margin:0 0 22px}
+.project-notes>div{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:11px 0;border-top:1px solid #c1d1ee19;font-size:11px;line-height:1.9}
+.project-notes dt{color:#c8d6e9}.project-notes dd{margin:0;color:#93a9c8}
+.journal .project-featured .project-footer{margin-top:auto;gap:15px;flex-wrap:wrap}
+.journal .project-secondary .project-image{aspect-ratio:1.65}
+.journal .project-secondary:nth-child(3){margin-top:52px}
+.journal .project-secondary .project-details{padding-top:20px}
+.journal .project-secondary .project-notes>div{padding:8px 0;font-size:10px}
+.journal .project-secondary .project-heading h3{font-size:25px}
+.journal .project-heading>.mono{display:block}
+.next-experiment{display:flex;align-items:center;gap:22px;padding:22px 25px;margin-top:35px;border:1px dashed #b7c7e333;border-radius:5px;color:#b0c0d9}
+.next-experiment>.mono{font-size:8px;color:#849bbd}
+.next-experiment p{font-family:var(--display);font-size:16px;letter-spacing:1px}
+.next-experiment>span:last-child{margin-left:auto;font-size:9px;color:#7f95b6}
+.journal .photography-section{grid-template-columns:.88fr 1.12fr;gap:6%;padding-top:52px;padding-bottom:60px;align-items:center}
+.journal .photo-editorial{padding:0}
+.journal .photo-editorial .section-label{margin-bottom:28px}
+.journal .photo-editorial h2{font-size:clamp(34px,3vw,50px);line-height:1.4}
+.journal .photo-description{margin:19px 0;font-size:12px;line-height:2}
+.journal .media-eyebrow{font-size:8px;letter-spacing:1.3px;margin-bottom:16px}
+.photo-postcard{display:grid;grid-template-columns:42% 1fr;gap:20px;align-items:center;padding:18px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.postcard-image{display:block;position:relative;aspect-ratio:1.3;padding:0;background:#24324d;border-radius:3px;overflow:hidden}
+.postcard-image img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.postcard-image:hover img{transform:scale(1.05)}
+.postcard-image>span{position:absolute;bottom:9px;right:9px;display:flex;align-items:center;gap:4px;font-size:9px;color:#fff;background:#14213bbc;padding:5px 8px;border-radius:20px}
+.postcard-caption>.mono{color:#8ba3c7;font-size:8px}
+.postcard-caption h3{font-family:var(--display);font-size:20px;letter-spacing:1px;font-weight:400;margin:9px 0;color:#d8e1ee}
+.postcard-caption p{font-size:11px;line-height:2;color:#a0b3cd}
+.postcard-caption small{display:block;font-size:8px;color:#718aaa;line-height:1.8;margin-top:9px}
+.postcard-caption .postcard-meta{font-size:9px;color:#c1cee2;margin-bottom:7px}
+.journal .photo-index{margin-top:19px;gap:0 12px}
+.journal .photo-index button{padding:10px 0;font-size:10px;gap:8px;text-align:left}
+.journal .photo-index button[aria-pressed=true]{color:#f0eadf;border-color:#c1d1ec77}
+.photo-index-dot{width:3px;height:3px;border-radius:50%;margin-left:auto;background:#bacfed33}
+.photo-index button[aria-pressed=true] .photo-index-dot{background:#dbe8f9;box-shadow:0 0 8px #c3d7f5}
+.journal .photo-controls{margin-top:21px;gap:18px}
+.journal .photo-controls>span{font-size:9px}
+.journal .photo-spiral-panel{height:730px}
+.journal .certificates-section{padding-top:52px;padding-bottom:55px}
+.journal .certificates-heading{margin-bottom:20px}
+.journal .certificates-heading h2{font-size:clamp(32px,3.5vw,57px)}
+.journal .certificate-introduction{width:34%}
+.credential-tabs{display:flex;align-items:center;gap:22px;margin-bottom:24px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.credential-tabs button{display:flex;gap:12px;align-items:center;font-size:11px;padding:13px 0;background:none;border-bottom:1px solid transparent;color:#8fa4c2}
+.credential-tabs button[aria-pressed=true]{color:#e0e7f2;border-color:#c5d5ec}
+.credential-tabs .mono{font-size:8px;color:#7a94b8}
+.credential-tabs p{margin-left:auto;font-size:10px;color:#91a6c7}
+.journal .certificate-reels{height:565px}
+.journal .certificate-reel-caption{font-size:8px;padding:18px 0}
+.journal .strengths-grid{grid-template-columns:1fr 1fr;gap:23px 28px;margin-top:25px;align-items:start}
+.journal .strength-card{position:relative;padding:26px 29px 24px;background:linear-gradient(125deg,#b6cdf208,transparent 80%)}
+.journal .strength-card:nth-child(even){margin-top:22px}
+.journal .strength-top{margin-bottom:18px;position:absolute;right:28px;top:26px;gap:20px}
+.journal .strength-top svg{width:24px;height:24px}
+.journal .strength-card h3{font-size:24px;margin:13px 0 12px}
+.journal .strength-card p{min-height:0;max-width:90%;font-size:12px;line-height:2.1}
+.journal .strength-tags{padding-top:16px;margin-top:18px;font-size:9px}
+.strength-evidence{display:inline-flex;gap:19px;align-items:center;font-size:10px;color:#d2dff1;background:none;padding:0;margin-top:19px}
+.journal .strengths-note{margin-top:35px}
+.journal .contact-section{position:relative;overflow:hidden}
+.journal .contact-inner{position:relative;z-index:1;padding-top:60px}
+.journal .contact-inner>.section-label{margin-bottom:38px}
+.journal .contact-main h2{font-size:clamp(35px,4.1vw,68px);line-height:1.6}
+.journal .contact-main{margin:30px 0 auto}
+.journal .contact-methods{margin-bottom:40px}
+.journal .contact-action-row{margin:23px 0 35px}
+.journal .contact-orb{width:85px;height:85px;margin-right:5%}
+.journal .contact-orb svg{width:37px}
+.lunar-horizon{position:absolute;inset:0;pointer-events:none}
+.lunar-horizon svg{width:100%;height:100%;opacity:.65}
+.lunar-horizon>.mono{position:absolute;right:7%;bottom:28%;font-size:7px;letter-spacing:3px;color:#8b9db855}
+@media(min-width:1800px){.journal .photo-spiral-panel{height:790px}.journal .project-featured .project-image{min-height:440px}.journal .body-copy{font-size:14px}.journey-stop p{font-size:13px}.journal .strength-card p{font-size:14px}}
+@media(max-width:1100px){.journal .section-heading-aside{width:40%}.journal .about-grid{grid-template-columns:.8fr 1.2fr;gap:5%}.journal .project-featured{grid-template-columns:1fr 1fr;gap:24px;padding:16px}.journal .project-featured .project-image{min-height:360px}.journal .project-featured .space-cover-title{font-size:36px}.journal .photography-section{gap:4%;grid-template-columns:1fr 1.1fr}.journal .photo-spiral-panel{height:720px}.photo-postcard{grid-template-columns:38% 1fr;gap:14px}.journal .photo-index{grid-template-columns:repeat(3,1fr);gap:0 8px}.journal .photo-index button{font-size:9px}.credential-tabs{gap:18px}.credential-tabs p{width:100%;margin:0 0 12px}.journal .strength-card p{max-width:100%}.journal .moonlight-study{width:47%;right:-1%}.atlas-nodes a{font-size:12px;gap:9px}.atlas-nodes small{font-size:6px}}
+@media(max-width:979px){.journal .section{padding-top:60px;padding-bottom:60px}.journal .hero-body{padding-top:130px}.journal .hero-content{width:58%}.journal .hero-tech-line{height:125px}.journal .hero{min-height:790px}.journal .hero-intro{margin-bottom:15px}.journal .moonlight-study{width:48%;right:-3%}.journal .project-featured{grid-template-columns:1fr}.journal .project-featured .project-image{min-height:0;aspect-ratio:1.8}.journal .project-featured .project-details{padding:8px}.journal .project-featured .space-cover-title{font-size:52px}.journey-path{gap:20px}.journey-stop h4{font-size:17px}.journey-stop p{font-size:10px}}
+@media(max-width:760px){.journal h2{font-size:36px}.journal .hero{min-height:960px;max-height:none;height:auto}.journal .hero-body{min-height:960px;padding-top:120px}.journal .hero-content{width:100%;padding:40px 0 20px;margin:0}.journal .hero-tech-line{height:103px}.journal .hero-description{margin:15px 0 20px}.journal .hero-whisper{margin-top:20px}.journal .moonlight-study{position:relative;width:100%;max-width:330px;margin:-15px auto 12px;right:auto;top:auto;bottom:auto;transform:none;opacity:1}.journal .moonlight-orbits{height:270px}.journal .moonlight-note{display:block;bottom:0;min-height:0}.journal .moonlight-note p{font-size:10px;letter-spacing:1px}.atlas-nodes a{font-size:11px;padding:8px;gap:8px}.atlas-nodes small{font-size:6px}.journal .hero-bottom{margin-top:auto}.journal .section-heading-aside{width:100%;margin-top:16px}.journal .about-grid{grid-template-columns:1fr;gap:28px}.journal .profile-card{max-width:330px;margin:auto;width:100%}.journal .profile-visual{aspect-ratio:1.3}.journal .about-content h2{font-size:36px}.journal .about-lead{font-size:16px}.journal .body-copy{font-size:12px}.journey{margin-top:32px}.journey-heading{display:block}.journey-heading h3{margin-top:11px;font-size:19px}.journey-path{grid-template-columns:1fr;gap:18px;padding-top:23px;padding-left:18px}.journey-line{display:none}.journey-path:before{content:'';position:absolute;left:0;top:35px;bottom:40px;border-left:1px solid #a4bee338}.journey-star{left:-20px;top:25px}.journey-stop{padding-top:14px}.journey-stop h4{font-size:19px}.journey-stop p{font-size:12px;max-width:none}.journey-stop a,.journey-stop button,.journey-label{margin-top:12px}.projects-journal{grid-template-columns:1fr;gap:32px}.projects-journal .project-featured{grid-template-columns:1fr;padding:13px;gap:12px}.journal .project-featured .project-image{aspect-ratio:1.3}.journal .project-featured .space-cover-title{font-size:36px}.journal .project-featured .project-heading h3{font-size:25px}.journal .project-secondary:nth-child(3){margin-top:0}.journal .project-secondary .project-image{aspect-ratio:1.4}.next-experiment{gap:15px;padding:18px;flex-wrap:wrap}.next-experiment p{font-size:14px;width:100%;order:3}.next-experiment>span:last-child{font-size:8px}.journal .photography-section{grid-template-columns:1fr;padding-top:55px;gap:24px}.journal .photo-editorial h2{font-size:36px}.photo-postcard{grid-template-columns:42% 1fr}.postcard-caption h3{font-size:19px}.journal .photo-index button{font-size:10px}.journal .photo-spiral-panel{height:570px}.journal .certificates-section{padding-top:50px;padding-bottom:45px}.journal .certificates-heading{display:block}.journal .certificates-heading h2{font-size:32px}.journal .certificate-introduction{width:100%;margin-top:20px}.credential-tabs{gap:16px;margin-bottom:20px}.credential-tabs button{font-size:10px;gap:7px}.credential-tabs p{font-size:10px}.journal .certificate-reels{height:490px}.journal .certificate-reel-caption>span:last-child{display:none}.journal .strengths-grid{grid-template-columns:1fr;gap:17px}.journal .strength-card:nth-child(even){margin-top:0}.journal .strength-card{padding:25px}.journal .strength-card h3{font-size:23px}.journal .contact-inner{padding-top:52px}.journal .contact-main{margin-top:5px}.journal .contact-main h2{font-size:31px;letter-spacing:1px}.journal .contact-action-row{gap:15px}.journal .contact-orb{width:54px;height:54px;margin:0}.journal .contact-orb svg{width:27px}.journal .contact-methods{margin-bottom:40px}.lunar-horizon svg{opacity:.25}.lunar-horizon>.mono{display:none}.journal .contact-method>div{font-size:25px}.journal .hero-bottom>p{display:none}}
+.journey-line{fill:none}
+@media(min-width:980px) and (max-height:820px){.journal .hero{min-height:720px}.journal .hero-body{padding-top:130px}.journal .hero-content{padding-top:22px;padding-bottom:18px}.journal .hero-tech-line{height:108px}.journal .hero-intro{margin-bottom:13px}.journal .hero-description{margin:13px 0 19px}.journal .hero-whisper{margin-top:18px}.journal .hero-bottom{padding:20px 0}}
+.lunar-terrain{filter:grayscale(1) brightness(1.35)}
+.lunar-terrain-lit{opacity:.9;filter:grayscale(1) brightness(1.5) contrast(.92)}
+.journal .lunar-horizon svg{opacity:.9}
+.journal .moonlight-globe{animation-duration:16s}
+@media(max-width:760px){.journal .lunar-horizon svg{opacity:.45}}
+
+@media(min-width:761px) and (max-width:1100px){.journey-path{grid-template-columns:repeat(2,1fr);gap:18px 32px}.journey-line{display:none}.journey-stop{border-top:1px solid #a4bee326}}
