@@ -1,0 +1,7 @@
+node_modules/
+dist/
+dist-pages-check/
+preview-*.png
+preview-*.jpg
+*.log
+.deployment/

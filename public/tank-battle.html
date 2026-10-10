@@ -8,7 +8,7 @@
   · 4.2.2 敌方坦克 + 障碍物、碰撞检测、胜负判定
   · 4.2.3 界面清晰、操作反馈明确（HUD/粒子/音效/关卡横幅/换弹提示）
   · 4.3.1 校园底图自动识别（同目录 校园底图.png/jpg）+ 原创底图兜底
-  · 4.3.2 地图顶部中央钢墙拼出姓名缩写「SJW」（孙嘉伟，独立保护区不影响随机地图）
+  · 4.3.2 地图中部钢墙拼出姓名缩写「SJW」（孙嘉伟，独立保护区不影响随机地图）
   · 增强：扩大地图 20x20 / 随机地图生成（障碍避开出生区与 SJW）
          / 智能 AI（最优路径追击 + 直线瞄准）/ 弹匣换弹机制（含音效与提示）
          / 受击原地 + 短暂无敌闪烁 / 无限闯关 + 关卡横幅 / 强化子弹拾取
@@ -232,19 +232,22 @@ function buildMap(seed) {
     protectRect(ROWS - 5, ROWS - 1, 0, 4);
     protectRect(ROWS - 5, ROWS - 1, COLS - 5, COLS - 1);
     protectRect(ROWS - 5, ROWS - 1, 6, COLS - 7); // 底部玩家区（行 15-19 列 6-13）
-    // SJW 中部（行 7-11 列 4-14，与所有出生保护区行列均不重叠）
+    // 姓名缩写「SJW」点阵（S/J 各 3 格宽，W 为画出真实 W 形而占 5 格宽），位于地图行 7-11 中部
     const glyphs = [
-        [[1, 1, 1], [1, 0, 0], [0, 1, 1], [0, 0, 1], [1, 1, 1]],
-        [[0, 0, 1], [0, 0, 1], [0, 0, 1], [1, 0, 1], [0, 1, 0]],
-        [[1, 0, 1], [1, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 0]]
+        { w: 3, rows: [[1, 1, 1], [1, 0, 0], [0, 1, 1], [0, 0, 1], [1, 1, 1]] },
+        { w: 3, rows: [[0, 0, 1], [0, 0, 1], [0, 0, 1], [1, 0, 1], [0, 1, 0]] },
+        { w: 5, rows: [[1, 0, 0, 0, 1], [1, 0, 0, 0, 1], [1, 0, 1, 0, 1], [1, 1, 0, 1, 1], [0, 1, 0, 1, 0]] }
     ];
-    const gW = 3, gap = 1, totalW = gW * 3 + gap * 2;
+    const gap = 1, totalW = glyphs.reduce((s, g) => s + g.w, 0) + gap * (glyphs.length - 1);
     const sC = Math.floor((COLS - totalW) / 2), sR = 7;
     protectRect(6, 12, sC - 1, sC + totalW);
-    glyphs.forEach((g, gi) => g.forEach((row, ri) => row.forEach((v, ci) => {
-        const cc = sC + gi * (gW + gap) + ci, rr = sR + ri;
-        if (v) map[rr][cc] = 2;
-    })));
+    let gx = sC;
+    glyphs.forEach(g => {
+        g.rows.forEach((row, ri) => row.forEach((v, ci) => {
+            if (v) map[sR + ri][gx + ci] = 2;
+        }));
+        gx += g.w + gap;
+    });
     const rng = mulberry32(seed || (Date.now() & 0xffff));
     // 四角砖墙 2x2（保护区边缘内侧）
     [[1, 1], [1, 2], [2, 1], [2, 2], [COLS - 3, 1], [COLS - 2, 1], [COLS - 3, 2], [COLS - 2, 2],
