@@ -24,7 +24,8 @@ export default function MoonEntrance({ contentRef }) {
     function updateScroll() {
       scrollFrame = 0;
       const bounds = section.getBoundingClientRect();
-      const distance = Math.max(1, section.offsetHeight - window.innerHeight);
+      const visibleHeight = matchMedia('(max-width: 760px)').matches ? stage.offsetHeight : window.innerHeight;
+      const distance = Math.max(1, section.offsetHeight - visibleHeight);
       const progress = clamp(-bounds.top / distance);
       progressRef.current = progress;
       const reveal = reducedMotion.matches ? (progress > .65 ? 1 : 0) : smooth((progress - .34) / .58);

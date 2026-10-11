@@ -8,4 +8,5 @@ import './journal-theme.css';
 import './contact-loop.css';
 import './natural-night.css';
 import './narrative-motion.css';
+import './mobile.css';
 createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);

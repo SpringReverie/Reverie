@@ -44,7 +44,10 @@ export default function useChapterMotion(contentRef, onActive) {
       const viewportChanged = innerWidth!==viewWidth || innerHeight!==viewHeight || enabled!==desiredMode;
       // Keep the last painted scene: moving the portals can clamp native scroll
       // before this measurement, so scrollY no longer describes the old layout.
-      const previousRecord = !firstMeasure && viewportChanged
+      // A phone's browser bars change innerHeight while reading. Never relocate
+      // native scroll for that resize; preserve position only across layout modes.
+      const preserveScene = enabled || desiredMode || innerWidth !== viewWidth;
+      const previousRecord = !firstMeasure && viewportChanged && preserveScene
         ? records.find(record => record.id===active) ?? records.findLast(record => Number.isFinite(record.start) && visualY>=record.start)
         : null;
       const previousDistance = previousRecord ? (enabled ? previousRecord.storyTravel : previousRecord.overflow) : 0;
@@ -53,7 +56,7 @@ export default function useChapterMotion(contentRef, onActive) {
       enabled = desiredMode;
       root.classList.toggle('chapter-motion-enabled', enabled);
       root.classList.toggle('chapter-reveals-enabled', !reduced.matches);
-      root.style.setProperty('--chapter-nav', innerWidth > 760 ? '104px' : '82px');
+      root.style.setProperty('--chapter-nav', innerWidth > 760 ? '104px' : '68px');
       records.forEach(record => {
         record.stage = root.querySelector(`[data-stage="${record.id}"]`);
         record.content = record.stage.querySelector('.chapter-content');
@@ -69,7 +72,7 @@ export default function useChapterMotion(contentRef, onActive) {
           });
         }
         record.items = items;
-        record.inset = record.id === 'top' ? 0 : (innerWidth > 760 ? 104 : 82);
+        record.inset = record.id === 'top' ? 0 : (innerWidth > 760 ? 104 : 68);
         record.viewport = innerHeight - record.inset;
         record.entryDistance = record.viewport * record.config.span;
         record.section.style.setProperty('--chapter-viewport', `${record.viewport}px`);

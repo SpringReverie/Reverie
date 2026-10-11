@@ -17,6 +17,7 @@ import ScrollChapter, { ChapterRail, ChapterScenes } from './ScrollChapter';
 import useChapterMotion from './useChapterMotion';
 import { photographs, certificates } from './media';
 import { sitePath } from './sitePath';
+import useMobileLayout from './useMobileLayout';
 
 const asset = (name) => sitePath(`assets/${name}`);
 const navItems = [['about', '个人经历'], ['projects', '精选项目'], ['photography', '摄影作品'], ['certificates', '证书认证'], ['strengths', '个人优势']];
@@ -54,6 +55,7 @@ function Gallery({ gallery, onClose }) {
 }
 
 export default function App() {
+  const mobile = useMobileLayout();
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('top');
   const [gallery, setGallery] = useState(null);
@@ -61,6 +63,18 @@ export default function App() {
   const video = useRef(null);
   const content = useRef(null);
   const { navigate } = useChapterMotion(content, setActive);
+
+  useEffect(() => {
+    if (!mobile || !menuOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const close = event => { if (event.key === 'Escape') setMenuOpen(false); };
+    document.addEventListener('keydown', close);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener('keydown', close);
+    };
+  }, [mobile, menuOpen]);
 
 
   useEffect(() => {
@@ -82,11 +96,11 @@ export default function App() {
     <header className="site-header">
       <div className="header-inner container">
         <a className="brand" href="#top" aria-label="孙嘉伟，回到首页"><span className="brand-mark">REVERIE<span className="brand-dot">.</span></span><span className="brand-note">孙嘉伟 · 个人作品集<br />PORTFOLIO / 2026</span></a>
-        <nav className={menuOpen ? 'navigation open' : 'navigation'} aria-label="主导航">
+        <nav id="primary-navigation" className={menuOpen ? 'navigation open' : 'navigation'} aria-label="主导航">
           {navItems.map(([id, title], index) => <a key={id} href={`#${id}`} className={active === id ? 'active' : ''} onClick={() => setMenuOpen(false)}><span>0{index + 1}</span>{title}</a>)}
           <a className="nav-contact" href="#contact" onClick={() => setMenuOpen(false)}>聊聊想法 <ArrowUpRight size={17} /></a>
         </nav>
-        <button className="menu-button icon-button" aria-label={menuOpen ? '关闭菜单' : '打开菜单'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
+        <button className="menu-button icon-button" aria-label={menuOpen ? '关闭菜单' : '打开菜单'} aria-controls="primary-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
       </div>
     </header>
 
@@ -97,7 +111,7 @@ export default function App() {
         <div className="hero-shade" />
         <div className="hero-body container">
           <div className="hero-eyebrow mono"><span className="status-dot" /> 以好奇为引力 <span className="eyebrow-line" /> SHANGHAI / EARTH</div>
-          <div className="hero-content"><p className="hero-intro">你好，我是孙嘉伟。</p><h1 id="hero-title" aria-label="心怀旷野，循光而行。"><TechText text="心怀旷野，" align="left" fontFamily="'Noto Serif SC', 'STSong', 'SimSun', serif" fontWeight={400} fontSize={156} letterSpacing={.035} color="#f1f0e9" accentColor="#c3d3f3" strokeWidth={.7} reach={130} softness={.85} labels={false} specks={4} sweep={playing} speed={.55} className="hero-tech-line" /><TechText text="循光而行。" align="left" fontFamily="'Noto Serif SC', 'STSong', 'SimSun', serif" fontWeight={400} fontSize={156} letterSpacing={.035} color="#cbd9f3" accentColor="#e3deef" strokeWidth={.7} reach={130} softness={.85} labels={false} specks={4} sweep={playing} speed={.45} className="hero-tech-line" /></h1><p className="hero-description">沿着好奇心的轨道，<br />在理性与浪漫之间，收集一点新的可能。</p><a className="button button-light" href="#projects">看看我正在创造什么 <ArrowUpRight size={18} strokeWidth={1.25} /></a><p className="hero-whisper mono">A CURIOUS MIND, UNDER THE SAME SKY.</p></div>
+          <div className="hero-content"><p className="hero-intro">你好，我是孙嘉伟。</p><h1 id="hero-title" aria-label="心怀旷野，循光而行。">{mobile ? <span className="mobile-hero-title"><span>心怀旷野，</span><span>循光而行。</span></span> : <><TechText text="心怀旷野，" align="left" fontFamily="'Noto Serif SC', 'STSong', 'SimSun', serif" fontWeight={400} fontSize={156} letterSpacing={.035} color="#f1f0e9" accentColor="#c3d3f3" strokeWidth={.7} reach={130} softness={.85} labels={false} specks={4} sweep={playing} speed={.55} className="hero-tech-line" /><TechText text="循光而行。" align="left" fontFamily="'Noto Serif SC', 'STSong', 'SimSun', serif" fontWeight={400} fontSize={156} letterSpacing={.035} color="#cbd9f3" accentColor="#e3deef" strokeWidth={.7} reach={130} softness={.85} labels={false} specks={4} sweep={playing} speed={.45} className="hero-tech-line" /></>}</h1><p className="hero-description">沿着好奇心的轨道，<br />在理性与浪漫之间，收集一点新的可能。</p><a className="button button-light" href="#projects">看看我正在创造什么 <ArrowUpRight size={18} strokeWidth={1.25} /></a><p className="hero-whisper mono">A CURIOUS MIND, UNDER THE SAME SKY.</p></div>
           <MoonlightStudy playing={playing} />
           <div className="hero-bottom"><a className="scroll-link mono" href="#about"><ArrowDown size={17} strokeWidth={1.2} /> 向下，认识我 <span>SCROLL TO WANDER</span></a><p>MECHANICS × INTELLIGENCE × IMAGINATION<br /><span>让理性有温度，让想象有形状。</span></p><button className="video-control mono" onClick={() => setPlaying(!playing)} aria-label={playing ? '暂停背景视频' : '播放背景视频'}>{playing ? <Pause size={13} /> : <Play size={13} />} {playing ? 'PAUSE' : 'PLAY'}</button></div>
         </div>

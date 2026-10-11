@@ -1,0 +1,222 @@
+/* Phone edition. All overrides are scoped so the desktop composition is retained. */
+@media (max-width: 760px) {
+  html { scroll-padding-top: 68px; }
+  body { overflow-x: clip; }
+  .container { width: calc(100% - 40px); }
+  .journal { --phone-border: #b7c9e426; }
+  .site-content { transform: none; }
+  .journal .chapter-stage { overflow: clip; }
+  .journal .chapter-content { min-width: 0; }
+  .journal .star-sky { opacity: .52; }
+  .journal .chapter-drawing { opacity: .025; }
+  .journal .section { padding-top: 48px; padding-bottom: 48px; }
+  .journal .section-label { font-size: 9px; letter-spacing: 1px; margin-bottom: 22px; }
+  .journal h2, .journal .about-content h2, .journal .photo-editorial h2 {
+    font-size: clamp(28px, 8.2vw, 38px); line-height: 1.5; letter-spacing: .5px;
+  }
+  .journal .section-heading-aside p, .journal .body-copy,
+  .journal .project-details > p, .journal .strength-card p {
+    font-size: 14px; line-height: 1.95; color: #b3c2d9;
+  }
+  .journal button, .journal a { touch-action: manipulation; }
+
+  /* A compact header opens a full-height, thumb-friendly chapter menu. */
+  .site-header { z-index: 40; }
+  .header-inner { height: 68px; width: 100%; padding: 0 20px; background: #142037ed; }
+  .brand { gap: 0; }
+  .brand-mark { font-size: 21px; letter-spacing: 3px; }
+  .menu-button { width: 44px; height: 44px; padding: 10px; }
+  .navigation { position: fixed; inset: 68px 0 0; top: 68px; padding: 26px 24px max(28px, env(safe-area-inset-bottom)); height: calc(100dvh - 68px); overflow-y: auto; border: 0; border-radius: 0; gap: 0; background: linear-gradient(150deg, #192945, #0f192d 85%); }
+  .navigation.open { display: flex; }
+  .navigation > a:not(.nav-contact) { min-height: 70px; font-family: var(--display); font-size: 22px; gap: 20px; border-bottom: 1px solid var(--phone-border); }
+  .navigation a > span { font-size: 10px; font-family: var(--mono); }
+  .navigation .nav-contact { margin: 26px 0 0; min-height: 50px; padding: 15px 20px; font-size: 14px; }
+
+  /* Keep the moon entrance, with fewer corner labels and a legible title. */
+  .lunar-stage { min-height: 560px; }
+  .lunar-header { padding: max(24px, env(safe-area-inset-top)) 20px 20px; }
+  .lunar-edition { display: none; }
+  .lunar-wordmark { position: static; transform: none; text-align: left; font-size: 23px; letter-spacing: 5px; }
+  .lunar-wordmark > span { font-size: 7px; margin-top: 5px; }
+  .lunar-contact { min-height: 44px; font-size: 12px; gap: 8px; padding: 0; }
+  .lunar-copy { padding: 0 22px; top: 46%; }
+  .lunar-kicker { font-size: 7px; letter-spacing: 1px; line-height: 1.8; max-width: 260px; margin: 0 auto 22px; }
+  .lunar-copy h2 { font-size: clamp(32px, 9vw, 54px); line-height: 1.38; letter-spacing: -.5px; }
+  .lunar-copy h2 > span { max-width: 360px; margin-top: 12px; }
+  .lunar-subtitle { max-width: 250px; margin: 23px auto 0; font-size: 11px; line-height: 1.9; letter-spacing: 1px; }
+  .lunar-footer { bottom: max(28px, env(safe-area-inset-bottom)); }
+  .lunar-credit { display: none; }
+  .lunar-enter { font-size: 11px; }
+  .lunar-enter-circle { width: 48px; height: 48px; }
+
+  /* The mobile introduction reads vertically; text replaces draggable glyphs. */
+  .journal .hero { min-height: 0; height: auto; max-height: none; }
+  .journal .hero-body { height: auto; min-height: 100svh; padding-top: 100px; }
+  .journal .hero-eyebrow { font-size: 8px; letter-spacing: .5px; gap: 8px; flex-wrap: wrap; }
+  .journal .hero-content { width: 100%; margin: 0; padding: 25px 0 0; }
+  .journal .hero-intro { font-size: 14px; margin-bottom: 18px; }
+  .mobile-hero-title { display: block; font-family: var(--display); font-size: clamp(36px, 11.4vw, 58px); font-weight: 400; line-height: 1.5; letter-spacing: 1px; }
+  .mobile-hero-title > span { display: block; }
+  .mobile-hero-title > span:last-child { color: #cbd9f3; }
+  .journal .hero-description { font-size: 13px; line-height: 2; letter-spacing: .5px; margin: 18px 0 24px; }
+  .journal .hero .button { font-size: 13px; padding: 16px 22px; min-height: 48px; }
+  .journal .hero-whisper { display: none; }
+  .journal .moonlight-study { width: min(82%, 270px); max-width: none; margin: 10px auto 30px; }
+  .journal .moonlight-orbits { height: auto; }
+  .journal .moonlight-note { bottom: -8%; }
+  .journal .moonlight-note > .mono { display: none; }
+  .journal .moonlight-note p { font-size: 11px; margin: 0 auto; }
+  .journal .hero-bottom { margin-top: auto; padding: 19px 0; }
+  .journal .scroll-link, .journal .video-control { min-height: 44px; font-size: 10px; }
+  .journal .hero-video { width: 100%; left: 0; opacity: .25; }
+  .discipline-strip > .container { height: 64px; gap: 10px; }
+  .discipline-strip span:not(.strip-note) { font-size: 12px; letter-spacing: .5px; }
+
+  /* Short, visual interludes between the main reading sections. */
+  .journal:not(.chapter-motion-enabled) .moon-prologue { padding: 45px 20px 95px; }
+  .journal:not(.chapter-motion-enabled) .story-window { gap: 28px; }
+  .journal:not(.chapter-motion-enabled) .story-panel { padding: 0 0 28px; border-bottom: 1px solid var(--phone-border); text-align: left; }
+  .journal .story-panel h2 { font-size: 24px; line-height: 1.8; }
+  .story-panel > .mono { font-size: 7px; letter-spacing: 1.2px; margin-bottom: 12px; }
+  .story-count { position: absolute; right: 0; bottom: 12px; margin: 0; }
+  .journal:not(.chapter-motion-enabled) .starflight { min-height: 0; padding: 36px 20px 100px; }
+  .journal:not(.chapter-motion-enabled) .flight-copy { padding: 10px 0 95px; }
+  .journal .flight-copy h2 { font-size: 26px; line-height: 1.8; }
+  .flight-copy > p:last-child { font-size: 12px; letter-spacing: .5px; }
+  .scene-bottom a { font-size: 12px; min-height: 44px; }
+  .scene-bottom .mono { font-size: 7px; letter-spacing: .7px; }
+  .journal:not(.chapter-motion-enabled) .project-observatory { min-height: 0; padding: 42px 20px 92px; }
+  .journal:not(.chapter-motion-enabled) .observatory-copy { padding-bottom: 255px; }
+  .journal .observatory-copy h2 { font-size: 26px; }
+  .observatory-copy > p:not(.mono) { font-size: 13px; }
+  .observatory-copy > a { min-height: 44px; font-size: 13px; }
+
+  /* Profile becomes a compact identity card, followed by a clear timeline. */
+  .journal .about-grid { gap: 27px; }
+  .journal .profile-card { max-width: none; }
+  .journal .profile-visual { aspect-ratio: 1.9; }
+  .journal .avatar-frame { width: 32%; max-width: 115px; }
+  .journal .profile-coordinate, .journal .profile-visual-label { font-size: 7px; left: 15px; }
+  .journal .profile-card-bottom { padding: 17px; }
+  .journal .profile-card-bottom h3 { font-size: 22px; }
+  .journal .about-lead { font-size: 16px; line-height: 1.9; margin: 18px 0 0; }
+  .journal .about-links { gap: 12px 20px; flex-wrap: wrap; font-size: 12px; }
+  .journal .about-links a { min-height: 44px; }
+  .journal .stats { gap: 10px; padding-top: 20px; margin-top: 20px; }
+  .journal .stats strong { font-size: 30px; white-space: nowrap; }
+  .journal .stats strong > span { font-size: 10px; margin-left: 3px; }
+  .journal .stats p { font-size: 10px; line-height: 1.8; margin-top: 7px; }
+  .journey { margin-top: 30px; }
+  .journey-heading h3 { font-size: 20px; line-height: 1.8; }
+  .journey-path { gap: 8px; }
+  .journey-stop { padding: 17px 6px 21px 0; }
+  .journey-stop h4 { font-size: 20px; }
+  .journey-stop p { font-size: 13px; line-height: 1.95; }
+  .journey-stop a, .journey-stop button { min-height: 44px; font-size: 12px; margin-top: 8px; }
+
+  /* Projects and abilities retain their content with one readable column. */
+  .journal .project-filters { gap: 8px; padding: 13px 0 21px; overflow-x: auto; }
+  .journal .project-filters button { min-height: 44px; padding: 11px 12px; font-size: 12px; white-space: nowrap; }
+  .projects-journal { gap: 30px; }
+  .projects-journal .project-featured { display: block; padding: 0; border: 0; background: none; }
+  .journal .project-featured .project-image, .journal .project-secondary .project-image { aspect-ratio: 1.5; min-height: 0; border-radius: 12px; }
+  .journal .project-featured .project-details, .journal .project-secondary .project-details { padding: 20px 0 0; }
+  .journal .project-featured .project-heading h3, .journal .project-secondary .project-heading h3 { font-size: 25px; }
+  .journal .project-notes > div, .journal .project-secondary .project-notes > div { grid-template-columns: 45px 1fr; font-size: 12px; padding: 12px 0; }
+  .journal .project-footer { gap: 14px; flex-wrap: wrap; }
+  .journal .project-footer > a { min-height: 44px; font-size: 12px; }
+  .journal .tags > span { font-size: 10px; padding: 6px 8px; }
+  .next-experiment { margin-top: 26px; padding: 20px 17px; gap: 14px; }
+  .journal .strengths-grid { gap: 16px; margin-top: 24px; }
+  .journal .strength-card { padding: 24px 21px; border-radius: 14px; }
+  .journal .strength-card h3 { font-size: 23px; line-height: 1.6; margin: 16px 0 12px; }
+  .journal .strength-top { right: 21px; top: 21px; gap: 12px; }
+  .journal .strength-top svg { width: 20px; height: 20px; }
+  .journal .strength-tags { font-size: 11px; line-height: 1.7; gap: 10px; }
+  .strength-evidence { min-height: 44px; font-size: 12px; margin-top: 10px; }
+  .journal .strengths-note p { font-size: 12px; line-height: 1.9; }
+
+  /* Native touch galleries avoid miniature 3D cards and accidental drags. */
+  .journal .photography-section { display: block; padding: 48px 0; }
+  .journal .photo-description { font-size: 14px; line-height: 1.9; margin: 18px 0 24px; }
+  .photo-postcard { display: block; padding: 0; border: 0; }
+  .postcard-image { width: 100%; aspect-ratio: 4 / 3; border-radius: 13px; }
+  .postcard-image > span { padding: 9px 12px; font-size: 11px; right: 12px; bottom: 12px; }
+  .postcard-caption { padding: 19px 0 22px; }
+  .postcard-caption h3 { font-size: 23px; margin: 8px 0; }
+  .postcard-caption p { font-size: 13px; line-height: 1.9; }
+  .postcard-caption .postcard-meta { font-size: 11px; line-height: 1.9; }
+  .journal .photo-index, .journal .photo-controls { display: none; }
+  .mobile-gallery-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; font-size: 10px; color: #9fb1ce; margin-bottom: 12px; }
+  .mobile-gallery-heading .mono { font-size: 10px; color: #d1dff3; }
+  .mobile-photo-filmstrip { display: grid; grid-auto-flow: column; grid-auto-columns: 84px; gap: 10px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding: 3px 2px 15px; scrollbar-width: thin; scrollbar-color: #8398b454 transparent; }
+  .mobile-photo-filmstrip button { position: relative; padding: 3px; border: 1px solid #c3d6f01c; background: #1c2940; border-radius: 9px; scroll-snap-align: start; }
+  .mobile-photo-filmstrip img { width: 100%; height: 70px; object-fit: cover; border-radius: 5px; }
+  .mobile-photo-filmstrip button > span { display: block; font-size: 9px; line-height: 2.8; color: #9eb0ca; }
+  .mobile-photo-filmstrip button[aria-pressed=true] { border-color: #cbdcf1; background: #2d405b; }
+  .mobile-photo-filmstrip button[aria-pressed=true] > span { color: #f1eee7; }
+  .journal .certificates-section { padding: 48px 0; }
+  .journal .certificates-heading h2 { font-size: clamp(26px, 7.7vw, 36px); }
+  .journal .certificate-introduction { margin-top: 17px; }
+  .certificate-introduction > p { font-size: 14px; line-height: 1.9; }
+  .certificate-controls { margin-top: 15px; }
+  .certificate-controls > .media-pause { display: none; }
+  .certificate-controls > button { font-size: 12px; min-height: 44px; }
+  .credential-tabs { gap: 8px 16px; margin-bottom: 23px; }
+  .credential-tabs button { min-height: 44px; font-size: 12px; padding: 10px 0; }
+  .credential-tabs p { font-size: 12px; line-height: 1.8; margin-bottom: 14px; }
+  .mobile-credential-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px 12px; }
+  .mobile-credential { position: relative; min-width: 0; text-align: left; background: #d7e7fb08; padding: 0 0 15px; border: 1px solid var(--phone-border); border-radius: 10px; overflow: hidden; }
+  .mobile-credential > div { position: relative; aspect-ratio: 1.35; background: #e9edf3; padding: 9px; }
+  .mobile-credential img { width: 100%; height: 100%; object-fit: contain; }
+  .mobile-credential .mono { position: absolute; bottom: 7px; left: 7px; font-size: 8px; padding: 3px 6px; border-radius: 4px; background: #152238d6; color: #eef3fa; }
+  .mobile-credential > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; line-height: 1.8; min-height: 44px; padding: 11px 24px 0 11px; color: #c9d6e9; }
+  .mobile-credential > svg { position: absolute; right: 9px; bottom: 14px; color: #9fb6d6; }
+  .mobile-show-credentials { width: 100%; min-height: 48px; background: #b8cef009; border: 1px solid var(--phone-border); border-radius: 9px; margin-top: 22px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .mobile-show-credentials[aria-expanded=true] > svg { rotate: 180deg; }
+  .mobile-media-hint { font-size: 10px; text-align: center; margin-top: 16px; color: #8fa4c3; }
+
+  /* Closing notes slide manually, so values stay still when tapping or copying. */
+  .journal .contact-inner { min-height: 100svh; padding-top: 48px; }
+  .journal .contact-inner > .section-label { margin-bottom: 30px; }
+  .journal .contact-main h2 { font-size: clamp(24px, 7.3vw, 36px); line-height: 1.8; letter-spacing: 0; }
+  .journal .contact-eyebrow { font-size: 7px; letter-spacing: 1px; line-height: 1.8; max-width: 255px; align-items: flex-start; }
+  .contact-eyebrow .status-dot { margin-top: 4px; }
+  .journal .contact-action-row { margin: 22px 0 30px; align-items: flex-start; }
+  .contact-action-row > p { font-size: 12px; line-height: 2; }
+  .journal .contact-orb { width: 48px; height: 48px; }
+  .journal .lunar-horizon svg { opacity: .28; }
+  .contact-loop-heading { align-items: center; margin-bottom: 14px; }
+  .contact-loop-heading > .mono { font-size: 7px; letter-spacing: 1px; }
+  .contact-loop-controls { gap: 8px; }
+  .contact-loop-controls button { width: 40px; height: 40px; }
+  .mobile-contact-list { position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: calc(100% - 22px); gap: 16px; overflow-x: auto; padding: 2px 0 10px; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+  .mobile-contact-list::-webkit-scrollbar { display: none; }
+  .mobile-contact-list .contact-note { width: auto; min-width: 0; padding: 22px 18px; scroll-snap-align: start; border-radius: 13px; background: #adbfdd09; }
+  .mobile-contact-list .contact-note-value { white-space: normal; overflow-wrap: anywhere; font-size: clamp(22px, 6.6vw, 29px); line-height: 1.6; min-height: 48px; margin: 20px 0 15px; }
+  .mobile-contact-list .contact-note-email .contact-note-value { font-size: 18px; letter-spacing: 0; }
+  .mobile-contact-list .contact-note-bottom { font-size: 11px; flex-wrap: wrap; }
+  .mobile-contact-list .contact-note-bottom > button { min-width: 44px; min-height: 44px; margin: -8px 0; }
+  .mobile-contact-position { display: flex; justify-content: space-between; gap: 14px; color: #8ea5c6; font-size: 10px; margin-top: 13px; }
+  .mobile-contact-position .mono { font-size: 9px; color: #d1dff3; }
+  .contact-loop-status { min-height: 23px; margin-top: 14px; font-size: 12px; }
+  .footer { margin-top: 20px; padding: 22px 0 max(24px, env(safe-area-inset-bottom)); }
+  .footer a:last-child { min-height: 44px; }
+
+  /* Image previews use the available screen, with controls clear of safe areas. */
+  .gallery-dialog { width: calc(100% - 20px); max-width: none; max-height: calc(100dvh - 24px); border-radius: 14px; }
+  .gallery-shell { padding: 12px; }
+  .gallery-top { padding-bottom: 10px; gap: 8px; }
+  .gallery-top h2 { font-size: 13px; line-height: 1.7; }
+  .gallery-top .icon-button, .gallery-bottom .icon-button { width: 44px; height: 44px; flex-shrink: 0; }
+  .gallery-image { height: min(65svh, 570px); }
+  .gallery-bottom { padding-top: 10px; gap: 8px; }
+}
+
+@media (max-width: 360px) {
+  .container { width: calc(100% - 32px); }
+  .journal .stats strong { font-size: 27px; }
+  .journal .strength-card h3 { font-size: 21px; }
+  .journal .strength-en { font-size: 7px; }
+  .journal .strength-top { gap: 7px; right: 17px; }
+}
