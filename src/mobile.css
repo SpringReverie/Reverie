@@ -136,17 +136,25 @@
   .strength-evidence { min-height: 44px; font-size: 12px; margin-top: 10px; }
   .journal .strengths-note p { font-size: 12px; line-height: 1.9; }
 
-  /* Native touch galleries avoid miniature 3D cards and accidental drags. */
+  /* Keep the spiral and tilted reels, with phone-sized cards and native page scrolling. */
   .journal .photography-section { display: block; padding: 48px 0; }
   .journal .photo-description { font-size: 14px; line-height: 1.9; margin: 18px 0 24px; }
   .photo-postcard { display: block; padding: 0; border: 0; }
   .postcard-image { width: 100%; aspect-ratio: 4 / 3; border-radius: 13px; }
   .postcard-image > span { padding: 9px 12px; font-size: 11px; right: 12px; bottom: 12px; }
-  .postcard-caption { padding: 19px 0 22px; }
+  .postcard-caption { padding: 19px 0 22px; min-height: 184px; }
   .postcard-caption h3 { font-size: 23px; margin: 8px 0; }
   .postcard-caption p { font-size: 13px; line-height: 1.9; }
   .postcard-caption .postcard-meta { font-size: 11px; line-height: 1.9; }
-  .journal .photo-index, .journal .photo-controls { display: none; }
+  .journal .photo-index { display: none; }
+  .journal .photo-controls { display: flex; margin: 0 0 18px; gap: 10px 18px; }
+  .photo-controls > .media-pause { min-height: 44px; font-size: 12px; }
+  .photo-controls > span { font-size: 10px; color: #9fb1ce; }
+  .journal .photo-spiral-panel { height: clamp(420px, 68svh, 540px); margin-top: 20px; border: 1px solid var(--phone-border); border-radius: 14px; }
+  .spiral-coordinate { top: 16px; font-size: 7px; letter-spacing: 1px; pointer-events: none; }
+  .spiral-bottom { bottom: 15px; left: 16px; right: 16px; letter-spacing: .7px; }
+  .spiral-caption { padding: 25px 12px 10px; font-size: 12px; }
+  .spiral-caption .mono { font-size: 9px; }
   .mobile-gallery-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; font-size: 10px; color: #9fb1ce; margin-bottom: 12px; }
   .mobile-gallery-heading .mono { font-size: 10px; color: #d1dff3; }
   .mobile-photo-filmstrip { display: grid; grid-auto-flow: column; grid-auto-columns: 84px; gap: 10px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding: 3px 2px 15px; scrollbar-width: thin; scrollbar-color: #8398b454 transparent; }
@@ -160,21 +168,22 @@
   .journal .certificate-introduction { margin-top: 17px; }
   .certificate-introduction > p { font-size: 14px; line-height: 1.9; }
   .certificate-controls { margin-top: 15px; }
-  .certificate-controls > .media-pause { display: none; }
+  .certificate-controls > .media-pause { display: inline-flex; }
   .certificate-controls > button { font-size: 12px; min-height: 44px; }
   .credential-tabs { gap: 8px 16px; margin-bottom: 23px; }
   .credential-tabs button { min-height: 44px; font-size: 12px; padding: 10px 0; }
   .credential-tabs p { font-size: 12px; line-height: 1.8; margin-bottom: 14px; }
-  .mobile-credential-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px 12px; }
-  .mobile-credential { position: relative; min-width: 0; text-align: left; background: #d7e7fb08; padding: 0 0 15px; border: 1px solid var(--phone-border); border-radius: 10px; overflow: hidden; }
-  .mobile-credential > div { position: relative; aspect-ratio: 1.35; background: #e9edf3; padding: 9px; }
-  .mobile-credential img { width: 100%; height: 100%; object-fit: contain; }
-  .mobile-credential .mono { position: absolute; bottom: 7px; left: 7px; font-size: 8px; padding: 3px 6px; border-radius: 4px; background: #152238d6; color: #eef3fa; }
-  .mobile-credential > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; line-height: 1.8; min-height: 44px; padding: 11px 24px 0 11px; color: #c9d6e9; }
-  .mobile-credential > svg { position: absolute; right: 9px; bottom: 14px; color: #9fb6d6; }
-  .mobile-show-credentials { width: 100%; min-height: 48px; background: #b8cef009; border: 1px solid var(--phone-border); border-radius: 9px; margin-top: 22px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 14px; }
-  .mobile-show-credentials[aria-expanded=true] > svg { rotate: 180deg; }
-  .mobile-media-hint { font-size: 10px; text-align: center; margin-top: 16px; color: #8fa4c3; }
+  .journal .certificate-reels { height: 430px; border-radius: 14px; touch-action: pan-y; }
+  .certificate-reel-frame { border-top: 0; }
+  .certificate-reels__base { filter: grayscale(.45) brightness(.72); }
+  .certificate-reels__row { height: 115px; }
+  .certificate-reels__card { width: 170px; flex-basis: 170px; height: 115px; }
+  .certificate-reels__field { gap: 14px; }
+  .certificate-reels__track { gap: 14px; padding-right: 14px; }
+  .certificate-reels__number { font-size: 9px; }
+  .certificate-reels__light { mask-image: radial-gradient(circle 145px at var(--spot-x) var(--spot-y), #000, #0008 45%, transparent 78%); }
+  .journal .certificate-reel-caption > span:first-child { font-size: 10px; line-height: 1.9; letter-spacing: .3px; }
+
 
   /* Closing notes slide manually, so values stay still when tapping or copying. */
   .journal .contact-inner { min-height: 100svh; padding-top: 48px; }

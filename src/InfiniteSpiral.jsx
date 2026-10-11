@@ -7,7 +7,7 @@ const smoothstep = (min, max, value) => { const x = clamp((value - min) / (max -
 
 // Based on the InfiniteSpiral source supplied by the user. The photo viewer,
 // pause control, focus handling and offscreen suspension are portfolio additions.
-export default function InfiniteSpiral({ items = [], speed = .55, direction = 'up', animationMode = 'all', radius = 215, cardWidth = 258, cardHeight = 178, verticalSpacing = 132, perspective = 1100, cardsPerTurn = 7, rotation = 0, cardTilt = -4, cardRadius = 5, centerScale = 1.18, edgeFade = .35, edgeBlur = 3, pauseOnHover = true, imageFit = 'cover', grayscale = .1, className = '', paused = false, onSelect, focusCommand, onFocused }) {
+export default function InfiniteSpiral({ items = [], speed = .55, direction = 'up', animationMode = 'all', radius = 215, cardWidth = 258, cardHeight = 178, widthFit = 2.65, verticalSpacing = 132, perspective = 1100, cardsPerTurn = 7, rotation = 0, cardTilt = -4, cardRadius = 5, centerScale = 1.18, edgeFade = .35, edgeBlur = 3, pauseOnHover = true, imageFit = 'cover', grayscale = .1, className = '', paused = false, onSelect, focusCommand, onFocused }) {
   const rootRef = useRef(null);
   const cardRefs = useRef([]);
   const progressRef = useRef(0);
@@ -55,7 +55,7 @@ export default function InfiniteSpiral({ items = [], speed = .55, direction = 'u
       if (pendingFocusRef.current !== null && Math.abs(targetProgressRef.current - progressRef.current) < .015) pendingFocusRef.current = null;
       if (pendingFocusRef.current === null && focused !== focusedRef.current) { focusedRef.current = focused; focusedCallback.current?.(focused); }
       const width = Math.max(bounds.width, 1), height = Math.max(bounds.height, 1);
-      const fit = Math.min(1, width / (cardWidth * 2.65), height / (cardHeight * 2.35));
+      const fit = Math.min(1, width / (cardWidth * Math.max(widthFit, 1)), height / (cardHeight * 2.35));
       const responsiveRadius = Math.min(radius, Math.max(72, width * .36)) * fit;
       const fadeStart = clamp(1 - edgeFade, 0, .98), turnSize = Math.max(cardsPerTurn, 1);
       cardRefs.current.forEach((card, index) => {
@@ -93,7 +93,7 @@ export default function InfiniteSpiral({ items = [], speed = .55, direction = 'u
     window.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('visibilitychange', handleVisibility);
     return () => { cancelAnimationFrame(frameId); resizeObserver.disconnect(); intersectionObserver.disconnect(); window.removeEventListener('scroll', handleScroll); document.removeEventListener('visibilitychange', handleVisibility); };
-  }, [normalizedItems, speed, direction, animationMode, radius, perspective, cardWidth, cardHeight, verticalSpacing, cardsPerTurn, rotation, cardTilt, centerScale, edgeFade, edgeBlur, pauseOnHover, paused]);
+  }, [normalizedItems, speed, direction, animationMode, radius, perspective, cardWidth, cardHeight, widthFit, verticalSpacing, cardsPerTurn, rotation, cardTilt, centerScale, edgeFade, edgeBlur, pauseOnHover, paused]);
 
   const dragEnabled = animationMode === 'drag' || animationMode === 'all';
   const stopDragging = (event) => { if (!draggingRef.current) return; draggingRef.current = false; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); event.currentTarget.style.cursor = dragEnabled ? 'grab' : 'default'; };

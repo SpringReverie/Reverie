@@ -23,7 +23,7 @@ npm run preview
 ## 修改内容
 
 - `src/data.js`：个人资料、五种真实联系方式、项目和优势文案。
-- `src/mobile.css`：760px 以下的独立手机排版。摄影采用横滑缩略图、证书采用双列卡片、联系方式采用手动滑动；电脑端保留原有展示。
+- `src/mobile.css`：760px 以下的独立手机排版。摄影保留螺旋画廊并提供横滑选片，证书保留四排倾斜滚动墙与触摸柔光，联系方式采用手动滑动；电脑端保留原有展示。
 - `src/App.jsx`：页面结构和交互。
 - `src/styles.css`：1700px 版心、基础组件与响应式布局。
 - `src/lunar-theme.css`：月夜蓝、柔白、淡紫色的正文视觉，宋体标题和轻盈的月光装饰。
@@ -50,7 +50,7 @@ npm run preview
 
 - `src/MediaShowcase.jsx`：摄影编号索引、螺旋画廊和证书专栏。
 - `src/InfiniteSpiral.jsx`：基于提供的代码实现摄影螺旋，支持自动播放、拖动、滚动和点击查看大图。
-- `src/CertificateReels.jsx`：自行编写的四排倾斜轮播、鼠标柔光遮罩和滚动加速，不依赖 React Bits Pro。
+- `src/CertificateReels.jsx`：自行编写的四排倾斜轮播、鼠标/触摸柔光遮罩和滚动加速，不依赖 React Bits Pro。手机端缩小卡片、提高默认亮度并减慢自动速度，触摸结束后柔光淡出。
 - `src/media.js`：9 张摄影作品和 17 张证书的统一编号与资源路径。
 - 根目录摄影原片已统一命名为 `摄影作品01.jpg` 至 `摄影作品09.jpg`，改名前后映射记录在 `scripts/photography-renames.json`。
 - `scripts/prepare-media.py`：使用 Pillow 生成摄影及证书的 WebP 大图与缩略图，原文件保留。输出在 `public/assets/photography/` 和 `public/assets/certificates/`。
