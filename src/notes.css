@@ -58,6 +58,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .notes-sidebar-footer p { font-size: 10px; margin: 7px 0 0 13px; color: var(--rv-quiet); }
 .notes-status-dot { display: inline-block; width: 4px; height: 4px; background: var(--rv-silver); border-radius: 50%; margin-right: 9px; }
 .notes-mobile-results { display: none; }
+.notes-mobile-find, .notes-course-count, .notes-card-read { display: none; }
 .notes-main { margin-left: 264px; padding: 0 40px; min-width: 0; }
 
 /* The index reads like a journal cover and a real, growing catalogue. */
@@ -277,6 +278,60 @@ mark { background: #dac79566; color: inherit; padding: 1px 3px; border-radius: 2
   .notes-main { padding-inline: 16px; }
   .notes-paper { padding-inline: 20px; }
   .notes-card { gap: 10px; padding-inline: 14px; grid-template-columns: 32px minmax(0, 1fr); }
+}
+/* The phone edition uses a cover, visible search and paper-coloured entries. */
+@media (max-width: 760px) {
+  .notes-library { padding-top: 22px; }
+  .notes-library-heading { border: 1px solid #bfd1e52b; background: linear-gradient(145deg, #233c58, #192d47); border-radius: 22px; padding: 28px 23px 22px; overflow: hidden; }
+  .notes-library-heading h1 { font-size: clamp(32px, 9vw, 38px); margin-bottom: 20px; position: relative; z-index: 1; }
+  .notes-library-heading > p:not(.notes-kicker) { font-size: 12px; max-width: 245px; position: relative; z-index: 1; }
+  .notes-library-heading .notes-kicker { font-size: 7px; margin-bottom: 21px; }
+  .notes-library-drawing { display: block; width: 142px; top: 42px; right: -30px; opacity: .15; z-index: 0; }
+  .notes-library-stats { position: relative; z-index: 1; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--rv-line); gap: 9px 22px; }
+  .notes-library-stats b { font-size: 25px; }
+  .notes-library-stats > span:last-child { margin-top: 6px; font-size: 9px; }
+  .notes-mobile-find { display: flex; align-items: center; gap: 12px; margin-top: 19px; padding: 15px 17px; min-height: 54px; border-radius: 13px; background: var(--rv-paper); color: #657b98; }
+  .notes-mobile-find input { border: 0; background: none; color: var(--rv-ink); font: 16px/1.5 var(--rv-sans); width: 100%; min-width: 0; outline: none; }
+  .notes-mobile-find input::placeholder { color: #78889c; font-size: 13px; }
+  .notes-mobile-find button { display: flex; align-items: center; justify-content: center; width: 28px; padding: 0; }
+  .notes-mobile-find:focus-within { outline: 2px solid #c4d4e9; outline-offset: 3px; }
+  .notes-course-bar { display: flex; margin: 27px 0 28px; gap: 15px; }
+  .notes-course-bar > span { font-size: 11px; letter-spacing: .06em; }
+  .notes-course-bar > div { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); width: 100%; gap: 10px; }
+  .notes-course-bar > div > button { display: grid; grid-template-columns: 27px minmax(0, 1fr) 16px; grid-template-rows: auto auto; border-radius: 13px; background: #c4d4e90a; padding: 17px 16px; min-height: 75px; gap: 7px 11px; text-align: left; }
+  .notes-course-bar > div > button > svg:first-child { grid-column: 1; grid-row: 1/3; width: 22px; height: 22px; }
+  .notes-course-bar > div > button > span { grid-column: 2; grid-row: 1; font: 400 16px/1.5 var(--rv-serif); }
+  .notes-course-bar .notes-course-count { display: block; grid-column: 2; grid-row: 2; font-size: 10px; color: var(--rv-quiet); }
+  .notes-course-bar > div > button > svg:last-child { grid-column: 3; grid-row: 1/3; width: 15px; height: 15px; }
+  .notes-course-bar > div > button[aria-pressed=true] { background: #c4d4e91a; }
+  .notes-card { display: block; position: relative; padding: 24px; border: 0; border-radius: 18px; background: var(--rv-paper); color: var(--rv-ink); }
+  .notes-card:hover { background: #f7f4ec; border-color: transparent; }
+  .notes-card-number { display: flex; flex-direction: row; justify-content: flex-start; align-items: center; gap: 12px; color: var(--rv-link); padding: 0 0 20px; border-bottom: 1px solid #586a8026; margin-bottom: 19px; }
+  .notes-card-number > span { font: 400 27px/1 var(--rv-serif); }
+  .notes-card-number > small { display: inline; font-size: 7px; letter-spacing: .13em; }
+  .notes-card-number > svg { order: 2; margin-left: auto; color: #7890aa; }
+  .notes-card h2 { color: var(--rv-ink); font: 400 27px/1.6 var(--rv-serif); margin: 11px 0 15px; }
+  .notes-card-folder { color: var(--rv-link); font-size: 10px; }
+  .notes-card p { color: var(--rv-ink-soft); font-size: 13px; line-height: 1.95; }
+  .notes-card-date { color: #728196; font-size: 10px; }
+  .notes-card-read { display: flex; justify-content: space-between; align-items: center; margin-top: 22px; padding-top: 13px; border-top: 1px solid #586a8026; min-height: 44px; font-size: 12px; color: var(--rv-link); }
+  .notes-attachments > a { background: #c4d4e908; border: 1px solid var(--rv-line); border-radius: 13px; margin-bottom: 12px; padding: 17px; }
+  .notes-file-type { background: #d7e0ed; color: #496381; border: 0; padding: 14px 10px; }
+  .notes-paper { border-radius: 18px; }
+  .notes-paper .notes-article-heading { margin: 22px -22px 27px; padding: 27px 24px 26px; border: 0; background: #1b304b; color: var(--rv-moon); }
+  .notes-paper .notes-article-heading h1 { color: var(--rv-moon); font-size: 29px; margin-bottom: 23px; }
+  .notes-paper .notes-article-heading .notes-kicker { color: #a0b5d1; font-size: 7px; }
+  .notes-paper .notes-article-heading > div { color: #b6c8e0; font-size: 10px; }
+  .notes-paper .notes-tags { color: #b7cce8; }
+  .notes-mobile-toc { padding: 8px 14px; border: 1px solid #6e829e26; border-radius: 10px; background: #6e829e08; }
+  .notes-mobile-toc summary { min-height: 44px; }
+  .notes-mobile-toc nav { max-height: 265px; overflow-y: auto; margin-block: 7px 12px; }
+}
+@media (max-width: 360px) {
+  .notes-library-heading { padding-inline: 20px; }
+  .notes-card { padding: 21px; }
+  .notes-card h2 { font-size: 25px; }
+  .notes-paper .notes-article-heading { margin-inline: -20px; padding-inline: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }

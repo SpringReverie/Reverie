@@ -1,4 +1,6 @@
 .journal .projects-editorial { padding-block: 96px 88px; }
+.work-mobile-cover, .works-mobile-index, .work-expand { display: none; }
+.work-insight, .work-insight-content { display: contents; }
 .projects-editorial .works-heading { display: grid; grid-template-columns: 1.25fr 1fr; align-items: end; gap: 48px; margin: 0 0 48px; }
 .projects-editorial .works-eyebrow { font: 9px/1.8 var(--rv-mono); letter-spacing: .14em; color: var(--rv-quiet); margin-bottom: 22px; }
 .journal .projects-editorial .works-heading h2 { color: var(--rv-moon); font: 400 clamp(46px, 4.5vw, 72px)/1.5 var(--rv-serif); letter-spacing: .02em; }
@@ -110,6 +112,56 @@
   .projects-editorial .work-notebook .work-media { order: 0; aspect-ratio: 1.6; }
   .projects-editorial .works-colophon { font-size: 9px; padding-top: 24px; flex-wrap: wrap; gap: 12px; }
   .projects-editorial .works-colophon > span:last-child { font-size: 7px; }
+}
+/* Phone art direction: poster covers, short introductions and expandable field notes. */
+@media (max-width: 760px) {
+  .projects-editorial .works-heading { position: relative; gap: 20px; padding-bottom: 26px; border-bottom: 1px solid var(--rv-line); }
+  .projects-editorial .works-heading > div:first-child { padding-right: 57px; }
+  .journal .projects-editorial .works-heading h2 { font-size: clamp(30px, 8.8vw, 36px); line-height: 1.55; }
+  .projects-editorial .works-eyebrow { max-width: 195px; font-size: 6px; letter-spacing: .12em; }
+  .projects-editorial .works-mobile-index { display: flex; flex-direction: column; align-items: flex-end; position: absolute; right: 0; top: 35px; color: var(--rv-silver); }
+  .projects-editorial .works-mobile-index strong { font: 400 52px/1 var(--rv-serif); }
+  .projects-editorial .works-mobile-index > span { font-size: 9px; margin-top: 10px; letter-spacing: .14em; }
+  .projects-editorial .works-edition { display: none; }
+  .projects-editorial .works-introduction p { font-size: 13px; margin: 0; }
+  .projects-editorial .works-browse { border: 0; margin: -6px 0 26px; }
+  .projects-editorial .work-filters { gap: 8px; width: 100%; }
+  .projects-editorial .work-filters button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--rv-line); border-radius: 999px; font-size: 11px; gap: 7px; }
+  .projects-editorial .work-filters button.selected { color: var(--rv-ink); background: var(--rv-moon); border-color: var(--rv-moon); }
+  .projects-editorial .work-filters button::after { display: none; }
+  .journal .projects-editorial .works-grid { gap: 28px; }
+  .journal .projects-editorial .work-card { border: 1px solid var(--rv-line); border-radius: 20px; overflow: hidden; padding: 0; background: #1b2e47; }
+  .journal .projects-editorial .work-featured, .journal .projects-editorial .work-notebook { display: block; padding: 0; margin: 0; }
+  .projects-editorial .work-card .work-media { aspect-ratio: 1.25; border-radius: 0; }
+  .projects-editorial .work-media::after { background: linear-gradient(#0c1b3040, transparent 32%, #0c1b3040 52%, #0c1b30ef); }
+  .projects-editorial .work-media-label { top: 18px; left: 20px; right: 20px; font-size: 6px; }
+  .projects-editorial .work-mobile-cover { position: absolute; display: block; left: 22px; right: 22px; bottom: 25px; z-index: 1; }
+  .projects-editorial .work-mobile-cover > span { display: inline-block; color: #d7e3f3; border: 1px solid #d7e3f347; border-radius: 999px; padding: 4px 9px; font-size: 9px; margin-bottom: 10px; }
+  .projects-editorial .work-mobile-cover h3 { margin: 0 0 8px; font: 400 34px/1.45 var(--rv-serif); color: #f6f3e9; letter-spacing: .03em; }
+  .projects-editorial .work-mobile-cover small { font: 6px/1.8 var(--rv-mono); color: #b4c9e5; letter-spacing: .13em; }
+  .projects-editorial .work-media-open { right: 19px; bottom: 27px; width: 35px; height: 35px; background: #e9eef418; color: #e7edf5; border: 1px solid #d7e3f33a; }
+  .projects-editorial .work-mobile-cover { right: 62px; }
+  .projects-editorial .work-card .work-body { padding: 20px; }
+  .projects-editorial .work-category, .projects-editorial .work-overline, .projects-editorial .work-title { display: none; }
+  .projects-editorial .work-description { font-size: 13px; line-height: 1.95; margin: 0 0 15px; color: #b8c9e0; }
+  .projects-editorial .work-insight { display: block; border-block: 1px solid var(--rv-line); }
+  .projects-editorial .work-expand { display: flex; justify-content: space-between; align-items: center; min-height: 44px; width: 100%; padding: 10px 0; color: var(--rv-silver); font-size: 11px; }
+  .projects-editorial .work-expand > span:last-child { font: 20px/1 var(--rv-serif); }
+  .projects-editorial .work-insight-content { display: none; padding: 3px 0 15px; }
+  .projects-editorial .work-insight.is-expanded .work-insight-content { display: block; }
+  .projects-editorial .work-records { border: 0; }
+  .projects-editorial .work-records > div:last-child { border: 0; }
+  .projects-editorial .work-footer, .projects-editorial .work-featured .work-footer { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin: 18px 0 0; padding: 0; }
+  .projects-editorial .work-tags { font-size: 9px; gap: 10px; }
+  .projects-editorial .work-action { justify-content: space-between; background: var(--rv-moon); color: var(--rv-ink); border-color: var(--rv-moon); width: 100%; min-height: 46px; padding-inline: 17px; font-size: 12px; }
+  .journal .projects-editorial .work-notebook { background: var(--rv-paper); border-color: #f3f0e8; }
+  .projects-editorial .work-notebook .work-media { aspect-ratio: 1.45; }
+  .projects-editorial .work-notebook .work-description, .projects-editorial .work-notebook .work-records dd { color: var(--rv-ink-soft); }
+  .projects-editorial .work-notebook .work-insight { border-color: #586a802b; }
+  .projects-editorial .work-notebook .work-expand { color: var(--rv-ink); }
+  .projects-editorial .work-notebook .work-records > div { border-color: #586a8026; }
+  .projects-editorial .work-notebook .work-records dt, .projects-editorial .work-notebook .work-tags { color: var(--rv-link); }
+  .projects-editorial .work-notebook .work-action { background: var(--rv-night-soft); border-color: var(--rv-night-soft); color: var(--rv-moon); }
 }
 @media (prefers-reduced-motion: reduce) {
   .projects-editorial *, .projects-editorial *::after { transition: none; }
