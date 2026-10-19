@@ -19,8 +19,8 @@ export default function ProjectsShowcase() {
   const visible = projects.filter(p => filter === '全部' || p.category === filter);
   return <ScrollChapter id="projects"><section className="section projects-section container">
     <div className="section-label"><span className="index">02</span><span>精选项目 / SELECTED WORK</span></div>
-    <div className="section-heading"><h2>让好奇，<br/><span className="muted-heading">慢慢有了形状。</span></h2><div className="section-heading-aside"><p>把遥远的想象，变成可以触碰的作品。<br/>每一次动手，都是一次小小的出发。</p><span className="mono">THREE EXPERIMENTS, AND MORE TO COME.</span></div></div>
-    <div className="project-filters" role="group" aria-label="筛选项目">{['全部', '交互开发', '人工智能'].map(item => <button key={item} className={filter === item ? 'selected' : ''} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}<span>{String(projects.filter(p => item === '全部' || p.category === item).length).padStart(2,'0')}</span></button>)}</div>
+    <div className="section-heading"><h2>让好奇，<br/><span className="muted-heading">慢慢有了形状。</span></h2><div className="section-heading-aside"><p>把遥远的想象，变成可以触碰的作品。<br/>每一次动手，都是一次小小的出发。</p><span className="mono">EXPERIMENTS, NOTES, AND MORE TO COME.</span></div></div>
+    <div className="project-filters" role="group" aria-label="筛选项目">{['全部', ...new Set(projects.map(project => project.category))].map(item => <button key={item} className={filter === item ? 'selected' : ''} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}<span>{String(projects.filter(p => item === '全部' || p.category === item).length).padStart(2,'0')}</span></button>)}</div>
     <div className="projects-journal">{visible.map((project, i) => <ProjectCard key={project.id} project={project} featured={i === 0}/>)}</div>
     {filter === '全部' && projects.length < 4 && <div className="next-experiment"><Plus size={21} strokeWidth={1}/><span className="mono">04 / TO BE CONTINUED</span><p>留一处空白，给下一次出发。</p><span>新项目预留</span></div>}
   </section></ScrollChapter>;

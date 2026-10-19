@@ -5,3 +5,5 @@ preview-*.png
 preview-*.jpg
 *.log
 .deployment/
+.notes-sync.local.json
+.notes-check/

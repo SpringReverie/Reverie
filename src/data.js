@@ -10,6 +10,7 @@ export const projects = [
   { id: '01', title: '星际躲避', en: 'INTO THE UNKNOWN', category: '交互开发', tags: ['JavaScript', 'Canvas', '游戏开发'], image: '星际躲避.gif', description: '从一块画布开始，构建一个可以探索的宇宙。用纯 JavaScript 实现太空射击，支持键盘与触摸操作。', href: '/game.html', action: '进入游戏', className: 'space-project' },
   { id: '02', title: '猫狗分类器', en: 'A LITTLE INTELLIGENCE', category: '人工智能', tags: ['TensorFlow.js', 'MobileNet'], image: '猫猫狗狗.jpg', description: '让机器学习走出概念，成为可体验的应用。基于深度学习识别猫狗图片，探索 AI 与日常生活的连接。', href: '/legacy/index.html#projects', action: '体验分类器', className: 'cat-project' },
   { id: '03', title: '坦克大战', en: 'PLAY. BUILD. REPEAT.', category: '交互开发', tags: ['Canvas', '游戏逻辑'], image: '坦克大战.jpg', description: '在熟悉的游戏里重建交互与逻辑。地图中央的钢墙藏着我的姓名缩写 SJV，每一处细节都来自亲手实践。', href: '/tank-battle.html', action: '开始游戏', className: 'tank-project' },
+  { id: '04', title: '学习笔记', en: 'THOUGHTS, STILL IN ORBIT.', category: '知识手记', tags: ['课程笔记', '持续更新', 'Obsidian'], image: 'notes-cover.svg', description: '把课堂里的理解、实践中的思路，整理成可以不断重访的知识手记。沿着目录探索，也可以从一个问题开始搜索。', href: '/notes.html', action: '翻开笔记', className: 'notes-project' },
 ].map(project => ({ ...project, href: sitePath(project.href) }));
 export const strengths = [
   { no: '01', icon: 'code', title: '把想法写成代码', en: 'BUILD WITH CODE', text: '自学 Python，实践面向对象编程与游戏开发。从逻辑拆解到交互实现，在动手中理解技术。', tags: ['Python', 'Pygame', 'JavaScript'] },

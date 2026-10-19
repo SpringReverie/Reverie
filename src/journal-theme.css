@@ -143,3 +143,10 @@
 @media(max-width:760px){.journal .lunar-horizon svg{opacity:.45}}
 
 @media(min-width:761px) and (max-width:1100px){.journey-path{grid-template-columns:repeat(2,1fr);gap:18px 32px}.journey-line{display:none}.journey-stop{border-top:1px solid #a4bee326}}
+
+/* The notebook fills the former next-project space without rearranging existing cards. */
+.journal .projects-journal .notes-project.project-secondary{grid-column:1/-1;display:grid;grid-template-columns:.85fr 1.15fr;align-items:center;gap:36px;border:1px solid #b3c9e326;border-radius:14px;padding:20px;background:#b7cceb05}
+.journal .notes-project.project-secondary .project-image{aspect-ratio:1.5;margin:0}
+.journal .notes-project.project-secondary .project-details{padding:10px 10px 10px 0}
+@media(max-width:979px){.journal .projects-journal .notes-project.project-secondary{grid-template-columns:1fr;gap:14px}.journal .notes-project.project-secondary .project-details{padding:8px}}
+@media(max-width:760px){.journal .projects-journal .notes-project.project-secondary{display:block;border:0;background:none;padding:0}.journal .notes-project.project-secondary .project-details{padding:20px 0 0}}

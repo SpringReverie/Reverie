@@ -6,15 +6,25 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "notes:sync": "node scripts/sync-notes.mjs",
+    "notes:publish": "node scripts/publish-notes.mjs",
+    "notes:check": "node --test scripts/notes.test.mjs"
   },
   "dependencies": {
+    "github-slugger": "^2.0.0",
+    "katex": "^0.16.0",
     "lucide-react": "^0.468.0",
     "motion": "^14.1.0",
     "ogl": "^1.0.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "three": "^0.186.1"
+    "react-markdown": "^10.1.0",
+    "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "three": "^0.186.1",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",
