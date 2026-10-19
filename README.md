@@ -22,6 +22,8 @@ npm run preview
 
 ## 修改内容
 
+- `DESIGN.md`：本站「月夜观察手记」设计规范，参考 awesome-design-md 的 Oura 与 Mintlify 分析，规定中文标题、颜色、图文构图、长文阅读与独立手机适配。
+- `src/reverie-design.css`：项目区与笔记页共享的设计变量；`src/projects-editorial.css` 提供主作品、次作品和笔记书签构图。
 - `src/data.js`：个人资料、五种真实联系方式、项目和优势文案。
 - `src/NotesApp.jsx` / `src/notes.css`：独立的笔记目录、全文搜索与纸面阅读版式。
 - `scripts/sync-notes.mjs`：从本地 Obsidian 笔记库导出可公开内容；使用方法见 [笔记更新说明.md](./笔记更新说明.md)。后续双击「更新笔记并上线.cmd」即可同步新笔记并触发 GitHub Pages 发布。

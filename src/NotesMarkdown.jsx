@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { Check, Copy } from 'lucide-react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -10,12 +11,27 @@ const remarkPlugins = [remarkGfm, remarkMath, remarkNotebook];
 const rehypePlugins = [[rehypeKatex, { strict: false, trust: false, throwOnError: false }]];
 const imageTypes = new Set(['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg', 'avif']);
 
-export default function NotesMarkdown({ body, note, catalog, onNavigate }) {
+function CodeBlock({ children }) {
+  const pre = useRef(null), timer = useRef(0);
+  const [copied, setCopied] = useState(false), [error, setError] = useState('');
+  useEffect(() => () => clearTimeout(timer.current), []);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(pre.current.textContent);
+      setCopied(true); setError(''); clearTimeout(timer.current);
+      timer.current = setTimeout(() => setCopied(false), 2000);
+    } catch { setError('复制未完成，可以选中代码手动复制。'); }
+  };
+  return <figure className="notes-code-block"><div><span>代码片段</span><button onClick={copy} aria-label={copied ? '代码已复制' : '复制代码'}>{copied ? <Check size={13}/> : <Copy size={13}/>}<span>{copied ? '已复制' : '复制'}</span></button></div><pre ref={pre}>{children}</pre>{error && <figcaption role="status">{error}</figcaption>}</figure>;
+}
+
+export default memo(function NotesMarkdown({ body, note, catalog, onNavigate }) {
   const content = useMemo(() => prepareBody(body), [body]);
   const referenceUrl = reference => reference.kind === 'note'
     ? `${sitePath('notes.html')}?note=${reference.id}${reference.hash ? '#' + encodeURIComponent(reference.hash) : ''}`
     : sitePath(`notes/${reference.file}`) + (reference.hash ? '#' + reference.hash : '');
   return <Markdown skipHtml remarkPlugins={remarkPlugins} rehypePlugins={rehypePlugins} components={{
+    pre: CodeBlock,
     a({ href, children }) {
       const reference = resolveReference(href, note, catalog);
       if (reference?.kind === 'missing') return <span className="note-missing-link" title={`暂未找到：${reference.path}`}>{children}</span>;
@@ -32,4 +48,4 @@ export default function NotesMarkdown({ body, note, catalog, onNavigate }) {
     },
     table({ children }) { return <div className="note-table-scroll" tabIndex={0} role="region" aria-label="表格，可横向滚动"><table>{children}</table></div>; },
   }}>{content}</Markdown>;
-}
+});

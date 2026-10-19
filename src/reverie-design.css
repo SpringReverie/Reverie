@@ -1,0 +1,19 @@
+/* Values only: existing lunar and media scenes retain their own presentation. */
+:root {
+  --rv-night: #142238;
+  --rv-night-soft: #1c2e47;
+  --rv-night-raised: #263b56;
+  --rv-moon: #f0eee6;
+  --rv-silver: #c4d4e9;
+  --rv-muted: #9fb3ce;
+  --rv-quiet: #829bbd;
+  --rv-line: #bed0e52b;
+  --rv-paper: #f3f0e8;
+  --rv-paper-soft: #eae7df;
+  --rv-ink: #2d3d51;
+  --rv-ink-soft: #586a80;
+  --rv-link: #45678e;
+  --rv-serif: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+  --rv-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  --rv-mono: 'SFMono-Regular', Consolas, monospace;
+}

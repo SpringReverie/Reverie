@@ -9,4 +9,6 @@ import './contact-loop.css';
 import './natural-night.css';
 import './narrative-motion.css';
 import './mobile.css';
+import './reverie-design.css';
+import './projects-editorial.css';
 createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);

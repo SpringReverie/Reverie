@@ -1,27 +1,40 @@
 import { useState } from 'react';
-import { ArrowUpRight, Plus } from 'lucide-react';
+import { ArrowUpRight, BookOpen } from 'lucide-react';
 import { projects } from './data';
 import { projectNotes, projectSupplements } from './journal-data';
 import ScrollChapter from './ScrollChapter';
 import { sitePath } from './sitePath';
 
 function ProjectCard({ project, featured }) {
+  const notebook = project.category === '知识手记';
   const notes = projectNotes[project.id] ?? [];
   const supplement = projectSupplements[project.id];
-  return <article className={`project-card ${project.className} ${featured ? 'project-featured' : 'project-secondary'}`}>
-    <a className="project-image" href={project.href} target="_blank" rel="noreferrer" aria-label={`${project.title}：${project.action}`}><img src={sitePath(`assets/${project.image}`)} alt={`${project.title}作品画面`} loading="lazy"/><span className="image-index mono">EXPERIMENT / {project.id}</span><span className="image-arrow"><ArrowUpRight/></span>{project.id === '01' && <span className="space-cover-title">INTO THE<br/><i>UNKNOWN.</i></span>}</a>
-    <div className="project-details"><span className="project-overline mono">{project.en}</span><div className="project-heading"><h3>{project.title}</h3><span className="mono">{project.id}</span></div><p>{project.description}</p><dl className="project-notes">{notes.map(([label, text]) => <div key={label}><dt>{label}</dt><dd>{text}</dd></div>)}{supplement?.difficulty && <div><dt>难点</dt><dd>{supplement.difficulty}</dd></div>}{supplement?.next && <div><dt>接下来</dt><dd>{supplement.next}</dd></div>}</dl><div className="project-footer"><div className="tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div><a href={project.href} target="_blank" rel="noreferrer">{project.action}<ArrowUpRight size={15}/></a></div></div>
+  return <article className={`project-card work-card ${project.className} ${notebook ? 'work-notebook' : featured ? 'work-featured' : 'work-secondary'}`}>
+    <a className="work-media" href={project.href} target="_blank" rel="noreferrer" aria-label={`${project.title}：${project.action}`}>
+      <img src={sitePath(`assets/${project.image}`)} alt={`${project.title}作品画面`} loading="lazy"/>
+      <span className="work-media-label"><span>{notebook ? 'FIELD NOTES' : 'SELECTED EXPERIMENT'}</span><span>{project.id} / REVERIE</span></span>
+      <span className="work-media-open" aria-hidden="true"><ArrowUpRight size={22} strokeWidth={1.3}/></span>
+    </a>
+    <div className="work-body">
+      <div className="work-category"><span>{notebook ? <BookOpen size={14} strokeWidth={1.3}/> : <span className="work-category-dot"/>}{project.category}</span><span>{project.id}</span></div>
+      <p className="work-overline">{project.en}</p><h3 className="work-title"><a href={project.href} target="_blank" rel="noreferrer">{project.title}</a></h3>
+      <p className="work-description">{project.description}</p>
+      <dl className="work-records">{notes.map(([label, text]) => <div key={label}><dt>{label}</dt><dd>{text}</dd></div>)}{supplement?.difficulty && <div><dt>难点</dt><dd>{supplement.difficulty}</dd></div>}</dl>
+      {supplement?.next && <p className="work-next"><span>下一步</span>{supplement.next}</p>}
+      <div className="work-footer"><div className="work-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div><a className="work-action" href={project.href} target="_blank" rel="noreferrer">{project.action}<ArrowUpRight size={16} strokeWidth={1.4}/></a></div>
+    </div>
   </article>;
 }
 
 export default function ProjectsShowcase() {
   const [filter, setFilter] = useState('全部');
-  const visible = projects.filter(p => filter === '全部' || p.category === filter);
-  return <ScrollChapter id="projects"><section className="section projects-section container">
+  const visible = projects.filter(project => filter === '全部' || project.category === filter);
+  const categories = ['全部', ...new Set(projects.map(project => project.category))];
+  return <ScrollChapter id="projects"><section className="section projects-section projects-editorial container" aria-labelledby="works-title">
     <div className="section-label"><span className="index">02</span><span>精选项目 / SELECTED WORK</span></div>
-    <div className="section-heading"><h2>让好奇，<br/><span className="muted-heading">慢慢有了形状。</span></h2><div className="section-heading-aside"><p>把遥远的想象，变成可以触碰的作品。<br/>每一次动手，都是一次小小的出发。</p><span className="mono">EXPERIMENTS, NOTES, AND MORE TO COME.</span></div></div>
-    <div className="project-filters" role="group" aria-label="筛选项目">{['全部', ...new Set(projects.map(project => project.category))].map(item => <button key={item} className={filter === item ? 'selected' : ''} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}<span>{String(projects.filter(p => item === '全部' || p.category === item).length).padStart(2,'0')}</span></button>)}</div>
-    <div className="projects-journal">{visible.map((project, i) => <ProjectCard key={project.id} project={project} featured={i === 0}/>)}</div>
-    {filter === '全部' && projects.length < 4 && <div className="next-experiment"><Plus size={21} strokeWidth={1}/><span className="mono">04 / TO BE CONTINUED</span><p>留一处空白，给下一次出发。</p><span>新项目预留</span></div>}
+    <header className="works-heading"><div><p className="works-eyebrow">A FEW THINGS I'VE BEEN MAKING</p><h2 id="works-title">让好奇，<br/><span>慢慢有了形状。</span></h2></div><div className="works-introduction"><span className="works-edition">{String(projects.length).padStart(2, '0')} / OPEN EXPLORATIONS</span><p>把想象交给双手，<br/>把走过的思路留给文字。</p><span className="works-whisper">在实践与思考之间，继续出发。</span></div></header>
+    <div className="works-browse"><div className="work-filters" role="group" aria-label="筛选项目">{categories.map(item => <button key={item} className={filter === item ? 'selected' : ''} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}<span>{String(projects.filter(project => item === '全部' || project.category === item).length).padStart(2, '0')}</span></button>)}</div><span className="works-browse-note" aria-live="polite">{String(visible.length).padStart(2, '0')} 个可以走近的想法</span></div>
+    <div className="projects-journal works-grid">{visible.map((project, index) => <ProjectCard key={project.id} project={project} featured={index === 0}/>)}</div>
+    <div className="works-colophon"><span>每一次尝试，都是理解世界的一小步。</span><span>BUILT WITH CURIOSITY.</span></div>
   </section></ScrollChapter>;
 }
